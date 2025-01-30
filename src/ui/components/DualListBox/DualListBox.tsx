@@ -9,13 +9,21 @@ const DualListBox = ({ data, options }) => {
   const [selectedItems, setSelectedItems] = useState(data.selectedData);
   const [activeItem, setActiveItem] = useState(null);
 
+  const handleItemClick = (id) => {
+    setActiveItem(id);
+  };
+
   return (
     <div className="dual-list-box">
       <div className="dual-list-box__available">
         <h3 className="dual-list-box__title">Available</h3>
         <div className="dual-list-box__list">
           {availableItems.map((item) => (
-            <div key={item.id} className={`list-item ${item.id === activeItem ? 'active' : ''}`}>
+            <div
+              key={item.id}
+              className={`dual-list-box__list-item ${item.id === activeItem ? 'dual-list-box__list-item--active' : ''}`}
+              onClick={() => handleItemClick(item.id)}
+            >
               {item.label}
             </div>
           ))}
@@ -39,7 +47,11 @@ const DualListBox = ({ data, options }) => {
         <h3 className="dual-list-box__title">Selected</h3>
         <div className="dual-list-box__list">
           {selectedItems.map((item) => (
-            <div key={item.id} className={`list-item ${item.id === activeItem ? 'active' : ''}`}>
+            <div
+              key={item.id}
+              className={`dual-list-box__list-item ${item.id === activeItem ? 'dual-list-box__list-item--active' : ''}`}
+              onClick={() => handleItemClick(item.id)}
+            >
               {item.label}
             </div>
           ))}

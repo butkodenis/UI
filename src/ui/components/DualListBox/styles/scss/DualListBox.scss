@@ -1,0 +1,56 @@
+.dual-list-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 600px; // или убери, если нужно на всю ширину родителя
+  padding: 10px;
+}
+
+.dual-list-box__available,
+.dual-list-box__selected {
+  flex: 1; // Динамически расширяет колонки
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-width: 150px; // Минимальная ширина, чтобы элементы не схлопывались
+  h3 {
+    text-align: center;
+  }
+}
+
+.dual-list-box__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Центрирование кнопок
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+}
+.dual-list-box__controls button {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #4ecc78;
+  color: white;
+  cursor: pointer;
+}
+
+.dual-list-box__list-item {
+  margin: 2px;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  &:hover {
+    background-color: #4ecc78;
+    color: white;
+  }
+}
+
+.dual-list-box__list-item--active {
+  background-color: #4ecc78;
+  color: white;
+}
