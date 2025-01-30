@@ -1,11 +1,12 @@
 .dual-list-box {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
   border: 1px solid #ccc;
   width: 100%;
-  max-width: 600px; // или убери, если нужно на всю ширину родителя
-  padding: 10px;
+  height: 300px;
+  max-width: 600px;
+  padding: 5px;
 }
 
 .dual-list-box__available,
@@ -14,8 +15,8 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  padding: 10px;
-  min-width: 150px; // Минимальная ширина, чтобы элементы не схлопывались
+  padding: 5px;
+  min-width: 150px;
   h3 {
     text-align: center;
   }
@@ -24,11 +25,12 @@
 .dual-list-box__controls {
   display: flex;
   flex-direction: column;
-  align-items: center; // Центрирование кнопок
+  align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 10px;
+  padding: 5px;
 }
+
 .dual-list-box__controls button {
   width: 100%;
   padding: 5px 10px;
