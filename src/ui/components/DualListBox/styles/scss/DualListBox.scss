@@ -1,12 +1,25 @@
 .dual-list-box {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-
   border: 1px solid #ccc;
   width: 100%;
-  height: 300px;
-  max-width: 600px;
   padding: 5px;
+}
+
+.dual-list-box__title {
+  width: 100%;
+  text-align: center;
+  p {
+    margin: 5px;
+  }
+}
+
+.dual-list-box__content {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px;
+  height: 200px;
 }
 
 .dual-list-box__available,
@@ -15,10 +28,12 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 5px;
   min-width: 150px;
-  h3 {
+  h4 {
     text-align: center;
+    margin: 5px;
   }
 }
 
@@ -27,8 +42,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
   padding: 5px;
+  gap: 5px;
 }
 
 .dual-list-box__controls button {
@@ -39,6 +54,14 @@
   background-color: #4ecc78;
   color: white;
   cursor: pointer;
+
+  &:active {
+    border: 1px solid #656b675d;
+  }
+}
+
+.dual-list-box__list {
+  overflow-y: auto;
 }
 
 .dual-list-box__list-item {
@@ -55,4 +78,5 @@
 .dual-list-box__list-item--active {
   background-color: #4ecc78;
   color: white;
+  border: 1px solid #000000;
 }

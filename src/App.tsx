@@ -15,7 +15,9 @@ function App() {
   }
 
   const options: Options = {
-    sorted: SortBy.Id, // или SortBy.Label
+    sorted: SortBy.Label, // или SortBy.Label
+    title: ' Title DualListBox',
+    width: 500,
   };
 
   return <DualListBox data={data} options={options} />;
