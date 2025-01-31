@@ -8,9 +8,40 @@ const DualListBox = ({ data, options }) => {
   const [availableItems, setAvailableItems] = useState(data.availableData);
   const [selectedItems, setSelectedItems] = useState(data.selectedData);
   const [activeItem, setActiveItem] = useState(null);
+  const [sortedBy, setSortedBy] = useState(options.sorted);
 
   const handleItemClick = (id) => {
     setActiveItem(id);
+  };
+
+  console.log('sortedBy', sortedBy);
+
+  const moveItemToSelected = () => {
+    if (activeItem === null) return; // если не выбран элемент
+    const item = availableItems.find((item) => item.id === activeItem);
+    if (!item) return; // если элемент не найден
+    setSelectedItems([...selectedItems, item]);
+    setAvailableItems(availableItems.filter((item) => item.id !== activeItem));
+    setActiveItem(null);
+  };
+
+  const moveItemToAvailable = () => {
+    if (activeItem === null) return;
+    const item = selectedItems.find((item) => item.id === activeItem);
+    if (!item) return;
+    setAvailableItems([...availableItems, item]);
+    setSelectedItems(selectedItems.filter((item) => item.id !== activeItem));
+    setActiveItem(null);
+  };
+
+  const moveItemAllToSelected = () => {
+    setSelectedItems([...selectedItems, ...availableItems]);
+    setAvailableItems([]);
+  };
+
+  const moveItemAllToAvailable = () => {
+    setAvailableItems([...availableItems, ...selectedItems]);
+    setSelectedItems([]);
   };
 
   return (
@@ -30,16 +61,16 @@ const DualListBox = ({ data, options }) => {
         </div>
       </div>
       <div className="dual-list-box__controls">
-        <button className="dual-list-box__control">
+        <button className="dual-list-box__control" onClick={moveItemToSelected}>
           <FontAwesomeIcon icon={faAngleRight} />
         </button>
-        <button className="dual-list-box__control">
+        <button className="dual-list-box__control" onClick={moveItemAllToSelected}>
           <FontAwesomeIcon icon={faAnglesRight} />
         </button>
-        <button className="dual-list-box__control">
+        <button className="dual-list-box__control" onClick={moveItemToAvailable}>
           <FontAwesomeIcon icon={faAngleLeft} />
         </button>
-        <button className="dual-list-box__control">
+        <button className="dual-list-box__control" onClick={moveItemAllToAvailable}>
           <FontAwesomeIcon icon={faAnglesLeft} />
         </button>
       </div>
