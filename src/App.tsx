@@ -1,13 +1,8 @@
 import DualListBox from './ui/components/DualListBox/DualListBox';
 
-import { data } from './moskData/data';
+import { availableList, selectedList } from './moskData/data';
 
 function App() {
-  enum SortBy {
-    Id = 'id',
-    Label = 'label',
-  }
-
   interface Options {
     sorted: SortBy;
     title: string;
@@ -15,12 +10,10 @@ function App() {
   }
 
   const options: Options = {
-    sorted: SortBy.Label, // или SortBy.Label
     title: ' Title DualListBox',
-    width: 500,
   };
 
-  return <DualListBox data={data} options={options} />;
+  return <DualListBox availableList={availableList} selectedList={selectedList} options={options} />;
 }
 
 export default App;
