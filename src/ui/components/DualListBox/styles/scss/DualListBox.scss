@@ -38,6 +38,7 @@ $error-color: red;
   height: 180px;
   justify-content: space-between;
   gap: 0px;
+  overflow-y: auto; // добавляем прокрутку по вертикали
 }
 
 .dual-list-box__available,
@@ -99,6 +100,19 @@ $error-color: red;
 
 .dual-list-box__list {
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px; // ширина скроллбара
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: $border-radius;
+  }
 }
 
 .dual-list-box__list-item {
@@ -108,8 +122,7 @@ $error-color: red;
   border-radius: $border-radius;
   transition: background-color 0.3s ease, color 0.3s ease;
   &:hover {
-    background-color: $primary-color;
-    color: white;
+    border: 1px solid $border-color;
   }
 }
 
