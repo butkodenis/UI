@@ -102,7 +102,9 @@ const DualListBox: React.FC<DualListBoxProps> = ({ availableList, selectedList, 
       <div className="dual-list-box__title">
         <p>{title}</p>
       </div>
-      <div className="dual-list-box__error">{error}</div>
+      <div className="dual-list-box__error">
+        <p>{error}</p>
+      </div>
       <div className="dual-list-box__content">
         <div className="dual-list-box__available">
           <h4 className="dual-list-box__list-title">Доступні варіанти </h4>
