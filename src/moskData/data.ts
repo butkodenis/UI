@@ -1,19 +1,19 @@
-interface Person {
+export interface Person {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
 }
 
-interface Item {
-  id: number;
+export interface Item {
+  id: string;
   label: string;
   value: Person;
 }
 
 export const availableList: Item[] = [
   {
-    id: 5,
+    id: '550e8400-e29b-41d4-a716-446655440000',
     label: 'Ігор Кузнєцов',
     value: {
       firstName: 'Ігор',
@@ -23,7 +23,7 @@ export const availableList: Item[] = [
     },
   },
   {
-    id: 6,
+    id: '550e8400-e29b-41d4-a716-446655440001',
     label: 'Ольга Васильєва',
     value: {
       firstName: 'Ольга',
@@ -33,7 +33,7 @@ export const availableList: Item[] = [
     },
   },
   {
-    id: 7,
+    id: '550e8400-e29b-41d4-a716-446655440002',
     label: 'Микола Морозов',
     value: {
       firstName: 'Микола',
@@ -43,7 +43,7 @@ export const availableList: Item[] = [
     },
   },
   {
-    id: 8,
+    id: '550e8400-e29b-41d4-a716-446655440003',
     label: 'Тетяна Павлова',
     value: {
       firstName: 'Тетяна',
@@ -53,7 +53,7 @@ export const availableList: Item[] = [
     },
   },
   {
-    id: 9,
+    id: '550e8400-e29b-41d4-a716-446655440004',
     label: 'Сергій Волков',
     value: {
       firstName: 'Сергій',
@@ -66,7 +66,7 @@ export const availableList: Item[] = [
 
 export const selectedList: Item[] = [
   {
-    id: 3,
+    id: '550e8400-e29b-41d4-a716-446655440005',
     label: 'Дмитро Сидоров',
     value: {
       firstName: 'Дмитро',
@@ -76,7 +76,7 @@ export const selectedList: Item[] = [
     },
   },
   {
-    id: 4,
+    id: '550e8400-e29b-41d4-a716-446655440006',
     label: 'Катерина Смирнова',
     value: {
       firstName: 'Катерина',

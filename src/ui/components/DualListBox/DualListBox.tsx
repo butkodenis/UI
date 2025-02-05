@@ -4,35 +4,46 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAngleLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
-const DualListBox = ({ availableList, selectedList, title }) => {
+interface Item {
+  id: string;
+  label: string;
+}
+
+interface DualListBoxProps {
+  availableList: Item[];
+  selectedList: Item[];
+  title: string;
+}
+
+const DualListBox: React.FC<DualListBoxProps> = ({ availableList, selectedList, title }) => {
   const [availableItems, setAvailableItems] = useState(availableList);
   const [selectedItems, setSelectedItems] = useState(selectedList);
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useState('');
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
   const [error, setError] = useState('');
 
   // Обработчик клика по элементу, устанавливает активный элемент
-  const handleItemClick = (id) => {
+  const handleItemClick = (id: string) => {
     setActiveItem(id);
     setError('');
   };
 
   // Обработчик изменения фильтра для доступных элементов
-  const handleFilterAvailableChange = (e) => {
+  const handleFilterAvailableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterAvailable(e.target.value);
     setError('');
   };
 
   // Обработчик изменения фильтра для выбранных элементов
-  const handleFilterSelectedChange = (e) => {
+  const handleFilterSelectedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterSelected(e.target.value);
     setError('');
   };
 
   // Функция для сортировки элементов
 
-  const sortedItems = (items) => {
+  const sortedItems = (items: Item[]) => {
     return items.sort((a, b) => a.label.localeCompare(b.label));
   };
 
@@ -46,7 +57,7 @@ const DualListBox = ({ availableList, selectedList, title }) => {
     if (!item) return; // если элемент не найден
     setSelectedItems([...selectedItems, item]);
     setAvailableItems(availableItems.filter((item) => item.id !== activeItem));
-    setActiveItem(null);
+    setActiveItem('');
     setError('');
   };
 
@@ -60,7 +71,7 @@ const DualListBox = ({ availableList, selectedList, title }) => {
     if (!item) return; // если элемент не найден
     setAvailableItems([...availableItems, item]);
     setSelectedItems(selectedItems.filter((item) => item.id !== activeItem));
-    setActiveItem(null);
+    setActiveItem('');
     setError('');
   };
 
