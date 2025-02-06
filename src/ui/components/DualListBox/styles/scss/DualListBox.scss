@@ -27,7 +27,7 @@ $error-color: red;
 .dual-list-box__error {
   color: $error-color;
   text-align: center;
-
+  height: 28px;
   p {
     margin: 5px;
   }
@@ -100,7 +100,7 @@ $error-color: red;
 
 .dual-list-box__list {
   overflow-y: auto;
-
+  padding-right: 5px;
   &::-webkit-scrollbar {
     width: 5px; // ширина скроллбара
   }
