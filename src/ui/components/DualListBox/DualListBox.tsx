@@ -11,11 +11,11 @@ interface Item {
 
 interface DualListBoxProps {
   availableList: Item[];
-  selectedList: Item[];
+  selectedList?: Item[];
   title: string;
 }
 
-const DualListBox: React.FC<DualListBoxProps> = ({ availableList, selectedList, title }) => {
+const DualListBox: React.FC<DualListBoxProps> = (props: Du) => {
   const [availableItems, setAvailableItems] = useState(availableList);
   const [selectedItems, setSelectedItems] = useState(selectedList);
   const [activeItem, setActiveItem] = useState('');
@@ -97,6 +97,7 @@ const DualListBox: React.FC<DualListBoxProps> = ({ availableList, selectedList, 
     item.label.toLowerCase().includes(filterSelected.toLowerCase())
   );
 
+  console.log('dd');
   return (
     <div className="dual-list-box">
       <div className="dual-list-box__title">
@@ -119,8 +120,7 @@ const DualListBox: React.FC<DualListBoxProps> = ({ availableList, selectedList, 
                   item.id === activeItem ? 'dual-list-box__list-item--active' : ''
                 }`}
                 onClick={() => handleItemClick(item.id)}
-                onDoubleClick={moveItemToSelected}
-              >
+                onDoubleClick={moveItemToSelected}>
                 {item.label}
               </div>
             ))}

@@ -1,17 +1,4 @@
-export interface Person {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-}
-
-export interface Item {
-  id: string;
-  label: string;
-  value: Person;
-}
-
-export const availableList: Item[] = [
+export const availableList = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
     label: 'Ігор Кузнєцов',
@@ -21,6 +8,8 @@ export const availableList: Item[] = [
       email: 'igor.kuznetsov@example.com',
       phone: '+380955678901',
     },
+    isFixed: true,
+    group: 'Керівництво',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
@@ -31,6 +20,7 @@ export const availableList: Item[] = [
       email: 'olga.vasileva@example.com',
       phone: '+380636789012',
     },
+    group: 'Фінансовий відділ',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
@@ -41,6 +31,7 @@ export const availableList: Item[] = [
       email: 'nikolay.morozov@example.com',
       phone: '+380687890123',
     },
+    group: 'Юридичний відділ',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
@@ -51,6 +42,7 @@ export const availableList: Item[] = [
       email: 'tatyana.pavlova@example.com',
       phone: '+380668901234',
     },
+    group: 'Відділ кадрів',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
@@ -61,10 +53,13 @@ export const availableList: Item[] = [
       email: 'sergey.volkov@example.com',
       phone: '+380999012345',
     },
+    group: 'IT-відділ',
   },
 ];
 
-export const selectedList: Item[] = [
+
+
+export const selectedList = [
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
     label: 'Дмитро Сидоров',
@@ -74,6 +69,7 @@ export const selectedList: Item[] = [
       email: 'dmitry.sidorov@example.com',
       phone: '+380933456789',
     },
+    group: 'IT-відділ',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
@@ -84,5 +80,6 @@ export const selectedList: Item[] = [
       email: 'ekaterina.smirnova@example.com',
       phone: '+380974567890',
     },
+    group: 'Відділ маркетингу',
   },
 ];
