@@ -38,18 +38,23 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   
   const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
     const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
-
     const groups = filteredItems.filter((item) => item.isGroup);
     const individuals = filteredItems.filter((item) => !item.isGroup);
 
     groups.sort((a, b) => a.label.localeCompare(b.label));
     individuals.sort((a, b) => a.label.localeCompare(b.label));
 
-    return [...groups, ...individuals];
+    return {groups, individuals};
   }
 
-  const filteredAvailableItems = getFilteredAndSortedItems(availableItems, filterAvailable);
-  const filteredSelectedItems = getFilteredAndSortedItems(selectedItems, filterSelected);
+  const { groups: availableGroups, individuals: availableIndividuals } = getFilteredAndSortedItems(
+    availableItems,
+    filterAvailable
+  );
+const { groups: selectedGroups, individuals: selectedIndividuals } = getFilteredAndSortedItems(
+  selectedItems,
+  filterSelected
+);
   
   console.log('ssss ')  ;
   
@@ -66,13 +71,19 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
               onChange={(e) => setFilterAvailable(e.target.value)}
             />
             {props.clearable && (
-              <button className="dual-list-box__btn-clear-filter" onClick={() => setFilterAvailable('')}>
+              <button className="dual-list-box__search-clear" onClick={() => setFilterAvailable('')}>
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             )}
           </div>
           <div className="dual-list-box__list">
-            {filteredAvailableItems.map((item) => (
+            <div className="dual-list-box__list-group">Групи</div>
+            {availableGroups.map((item) => (
+              <div key={item.id} className="dual-list-box__list-item dual-list-box__list-item--group">
+                {item.label}
+              </div>
+            ))}
+            {availableIndividuals.map((item) => (
               <div key={item.id} className="dual-list-box__list-item">
                 {item.label}
               </div>
@@ -97,16 +108,20 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
         <div className="dual-list-box__selected">
           <h4 className="dual-list-box__list-label">{props.labelSelected}</h4>
           <div className="dual-list-box__search">
-            <input type="text" placeholder="Пошук"  value={filterSelected} onChange={(e) =>  setFilterSelected(e.target.value)}  />
+            <input
+              type="text"
+              placeholder="Пошук"
+              value={filterSelected}
+              onChange={(e) => setFilterSelected(e.target.value)}
+            />
             {props.clearable && (
-              <button className="dual-list-box__btn-clear-filter" onClick={() => setFilterSelected('')}>
+              <button className="dual-list-box__search-clear" onClick={() => setFilterSelected('')}>
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             )}
-
           </div>
           <div className="dual-list-box__list">
-            {filteredSelectedItems.map((item) => (
+            {selectedIndividuals.map((item) => (
               <div key={item.id} className="dual-list-box__list-item">
                 {item.label}
               </div>

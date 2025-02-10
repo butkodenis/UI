@@ -14,179 +14,197 @@ $error-color: red;
   width: 100%;
   min-height: 150px;
   padding: 5px;
-}
 
-.dual-list-box__label {
-  width: 100%;
-  text-align: center;
-  p {
-    margin: 5px;
-  }
-}
-
-.dual-list-box__error {
-  color: $error-color;
-  text-align: left;
-  
-  p {
-    margin: 5px;
-  }
-}
-
-.dual-list-box__content {
-  display: flex;
-  height: 180px;
-  justify-content: space-between;
-  gap: 0px;
-  overflow-y: auto; // добавляем прокрутку по вертикали
-}
-
-.dual-list-box__available,
-.dual-list-box__selected {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
-  padding: 5px;
-  min-width: 150px;
-  h4 {
-    text-align: center;
-    margin: 5px;
-  }
-}
-
-.dual-list-box__search {
-  display: flex;
-  position: relative; // Устанавливаем относительное позиционирование для контейнера
-  align-items: center;
-  width: 100%;
-
-  input {
-    padding: 5px;
-    border: 1px solid $disabled-color;
-    border-radius: $border-radius;
+  &__label {
     width: 100%;
-    padding-right: 30px; // Добавляем отступ справа, чтобы кнопка не перекрывала текст
+    text-align: center;
+    
+    p {
+      margin: 5px;
+    }
   }
 
-  .dual-list-box__btn-clear-filter {
-    position: absolute;
-    right: 5px; // Смещение кнопки в конец инпута
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 2px 6px;
-    border: none;
-    background-color: transparent;
-    color: $disabled-text-color;
-    cursor: pointer;
+  &__error {
+    color: $error-color;
+    text-align: left;
+    
+    p {
+      margin: 5px;
+    }
+  }
+
+  &__content {
     display: flex;
+    height: 180px;
+    justify-content: space-between;
+    gap: 0px;
+    overflow-y: auto;
+  }
+
+  &__available,
+  &__selected {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: 5px;
+    min-width: 150px;
+
+    h4 {
+      text-align: center;
+      margin: 5px;
+    }
+  }
+
+  &__search {
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 100%;
+
+    input {
+      padding: 5px;
+      border: 1px solid $disabled-color;
+      border-radius: $border-radius;
+      width: 100%;
+      padding-right: 30px; // отступ справа для кнопки очистки
+      margin-bottom: 2px;
+    }
+
+    &-clear {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 2px 6px;
+      border: none;
+      background-color: transparent;
+      color: $disabled-text-color;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        color: $primary-color;
+      }
+
+      &:disabled {
+        color: $disabled-color;
+        cursor: not-allowed;
+      }
+
+      &:active {
+        color: $primary-color;
+        border: none;
+      }
+    }
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-    &:hover {
-      color: $primary-color;
+    padding: 5px;
+    gap: 5px;
+
+    button {
+      width: 100%;
+      padding: 5px 8px;
+      border: 1px solid $disabled-color;
+      border-radius: $border-radius;
+      background-color: $primary-color;
+      color: white;
+      cursor: pointer;
+
+      &:active {
+        border: 1px solid $border-color;
+      }
+
+      &:disabled {
+        background-color: $disabled-color;
+        color: $disabled-text-color;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__list {
+    overflow-y: auto;
+    padding-right: 5px;
+
+    &::-webkit-scrollbar {
+      width: 5px;
     }
 
-    &:disabled {
-      color: $disabled-color;
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: $border-radius;
+    }
+  }
+
+  &__list-group {
+    margin: 5px 0px;
+    padding: 5px;
+    
+    border-radius: $border-radius;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+     
+    }
+
+    &--active {
+      background-color: $primary-color;
+      color: white;
+      
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    &--disabled {
+      background-color: $disabled-color;
+      color: $disabled-text-color;
       cursor: not-allowed;
     }
-    &:active {
-      color: $primary-color;
-      border: none;
+  }
+
+  &__list-item {
+    margin: 2px 0px;
+    padding: 2px;
+    border: 1px solid $disabled-color;
+    border-radius: $border-radius;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $border-color;
+    }
+
+    &--active {
+      background-color: $primary-color;
+      color: white;
+      border: 1px solid $border-color;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    &--disabled {
+      background-color: $disabled-color;
+      color: $disabled-text-color;
+      cursor: not-allowed;
+    }
+
+    &--group {
+      font-weight: bold;
+      margin-left: 15px;
+      
     }
   }
-}
 
-
-.dual-list-box__btn-clear-filter {
-  
-  position: relative ;
-  right: 10px;
-  padding: 2px;
-  border: 1px solid $disabled-color;
-  border-radius: $border-radius;
-  background-color: $primary-color;
-  color: white;
-  cursor: pointer;
-
-  &:active {
-    border: 1px solid $border-color;
-  }
-  &:disabled {
-    background-color: $disabled-color;
-    color: $disabled-text-color;
-    cursor: not-allowed;
-  }
-}
-
-.dual-list-box__controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  gap: 5px;
-}
-
-.dual-list-box__controls button {
-  width: 100%;
-  padding: 5px 8px;
-  border: 1px solid $disabled-color;
-  border-radius: $border-radius;
-  background-color: $primary-color;
-  color: white;
-  cursor: pointer;
-
-  &:active {
-    border: 1px solid $border-color;
-  }
-  &:disabled {
-    background-color: $disabled-color;
-    color: $disabled-text-color;
-    cursor: not-allowed;
-  }
-}
-
-.dual-list-box__list {
-  overflow-y: auto;
-  padding-right: 5px;
-  &::-webkit-scrollbar {
-    width: 5px; // ширина скроллбара
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $primary-color;
-    border-radius: $border-radius;
-  }
-}
-
-.dual-list-box__list-item {
-  margin: 2px 0px;
-  padding: 2px;
-  border: 1px solid $disabled-color;
-  border-radius: $border-radius;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
-  &:hover {
-    border: 1px solid $border-color;
-  }
-}
-
-.dual-list-box__list-item--active {
-  background-color: $primary-color;
-  color: white;
-  border: 1px solid $border-color;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dual-list-box__list-item--disabled {
-  background-color: $disabled-color;
-  color: $disabled-text-color;
-  cursor: not-allowed;
 }
