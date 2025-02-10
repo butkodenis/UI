@@ -2,7 +2,15 @@ import './styles/scss/DualListBox.scss';
 
 import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAngleLeft, faAngleRight, faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAnglesLeft,
+  faAngleLeft,
+  faAngleRight,
+  faAnglesRight,
+  faXmark,
+  faCaretUp,
+faCaretDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface ListItem {
   id: string;
@@ -27,15 +35,16 @@ interface DualListBoxProps {
 }
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
-  const { options, selectedValues, } = props;
+  const { options, selectedValues } = props;
   const [availableItems, setAvailableItems] = useState(options || []);
   const [selectedItems, setSelectedItems] = useState(selectedValues || []);
-  const [activeItems, setActiveItems] = useState('');
+  const [activeItems, setActiveItems] = useState([]);
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
+  const [isGroupVisible, setIsGroupVisible] = useState(true);
   const [error, setError] = useState(props.invalidMessage ?? '');
-  
-  
+
+  // Функция для фильтрации и сортировки элементов списка
   const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
     const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
     const groups = filteredItems.filter((item) => item.isGroup);
@@ -44,20 +53,47 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     groups.sort((a, b) => a.label.localeCompare(b.label));
     individuals.sort((a, b) => a.label.localeCompare(b.label));
 
-    return {groups, individuals};
-  }
+    return { groups, individuals };
+  };
 
+  // Получение отфильтрованных и отсортированных элементов для доступных и выбранных списков
   const { groups: availableGroups, individuals: availableIndividuals } = getFilteredAndSortedItems(
     availableItems,
     filterAvailable
   );
-const { groups: selectedGroups, individuals: selectedIndividuals } = getFilteredAndSortedItems(
-  selectedItems,
-  filterSelected
-);
-  
-  console.log('ssss ')  ;
-  
+  const { groups: selectedGroups, individuals: selectedIndividuals } = getFilteredAndSortedItems(
+    selectedItems,
+    filterSelected
+  );
+
+  console.log('ssss ');
+
+  // Функция для переключения видимости групп
+  const toggleGroupVisibility = () => {
+    setIsGroupVisible(!isGroupVisible);
+  };
+
+  // Функция для обработки выбора элемента
+  const handleSelect = (item: ListItem, event: React.MouseEvent) => {
+    if (item.isFixed) {
+      return;
+    }
+
+    if (event.shiftKey) {
+      // Если нажат Shift, добавляем элемент к выделенной группе
+      setActiveItems((prev) => {
+        if (prev.includes(item)) {
+          return prev.filter((i) => i.id !== item.id);
+        } else {
+          return [...prev, item];
+        }
+      });
+    } else {
+      // Если Shift не нажат, выделяем только этот элемент
+      setActiveItems([item]);
+    }
+  };
+
   return (
     <div className="dual-list-box">
       <div className="dual-list-box__content">
@@ -77,14 +113,23 @@ const { groups: selectedGroups, individuals: selectedIndividuals } = getFiltered
             )}
           </div>
           <div className="dual-list-box__list">
-            <div className="dual-list-box__list-group">Групи</div>
-            {availableGroups.map((item) => (
-              <div key={item.id} className="dual-list-box__list-item dual-list-box__list-item--group">
-                {item.label}
-              </div>
-            ))}
+            <div className="dual-list-box__list-group" onClick={toggleGroupVisibility}>
+              Групи <FontAwesomeIcon icon={isGroupVisible ? faCaretDown : faCaretUp} />
+            </div>
+            {isGroupVisible &&
+              availableGroups.map((item) => (
+                <div key={item.id} className="dual-list-box__list-item dual-list-box__list-item--group">
+                  {item.label}
+                </div>
+              ))}
             {availableIndividuals.map((item) => (
-              <div key={item.id} className="dual-list-box__list-item">
+              <div
+                key={item.id}
+                className={`dual-list-box__list-item ${
+                  activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
+                }`}
+                onClick={(e) => handleSelect(item, e)}
+              >
                 {item.label}
               </div>
             ))}

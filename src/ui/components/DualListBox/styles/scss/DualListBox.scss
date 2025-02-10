@@ -35,7 +35,7 @@ $error-color: red;
 
   &__content {
     display: flex;
-    height: 180px;
+    height: 200px;
     justify-content: space-between;
     gap: 0px;
     overflow-y: auto;
@@ -185,6 +185,7 @@ $error-color: red;
 
     &:hover {
       border: 1px solid $border-color;
+      
     }
 
     &--active {
