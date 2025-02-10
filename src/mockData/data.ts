@@ -1,85 +1,78 @@
+
+
 export const availableList = [
   {
-    id: '550e8400-e29b-41d4-a716-446655440000',
-    label: 'Ігор Кузнєцов',
-    value: {
-      firstName: 'Ігор',
-      lastName: 'Кузнєцов',
-      email: 'igor.kuznetsov@example.com',
-      phone: '+380955678901',
-    },
-    isFixed: true,
-    group: 'Керівництво',
-  },
-  {
     id: '550e8400-e29b-41d4-a716-446655440001',
-    label: 'Ольга Васильєва',
-    value: {
-      firstName: 'Ольга',
-      lastName: 'Васильєва',
-      email: 'olga.vasileva@example.com',
-      phone: '+380636789012',
-    },
-    group: 'Фінансовий відділ',
+    label: 'Фінансовий відділ',
+    isGroup: true,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
-    label: 'Микола Морозов',
-    value: {
-      firstName: 'Микола',
-      lastName: 'Морозов',
-      email: 'nikolay.morozov@example.com',
-      phone: '+380687890123',
-    },
-    group: 'Юридичний відділ',
+    label: 'Юридичний відділ',
+    isGroup: true,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
-    label: 'Тетяна Павлова',
-    value: {
-      firstName: 'Тетяна',
-      lastName: 'Павлова',
-      email: 'tatyana.pavlova@example.com',
-      phone: '+380668901234',
-    },
-    group: 'Відділ кадрів',
+    label: 'Відділ кадрів',
+    isGroup: true,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
+    label: 'IT-відділ',
+    isGroup: true,
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440005',
+    label: 'Відділ маркетингу',
+    isGroup: true,
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440006',
+    label: 'Ольга Васильєва',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440007',
+    label: 'Микола Морозов',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440008',
+    label: 'Тетяна Павлова',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440009',
     label: 'Сергій Волков',
-    value: {
-      firstName: 'Сергій',
-      lastName: 'Волков',
-      email: 'sergey.volkov@example.com',
-      phone: '+380999012345',
-    },
-    group: 'IT-відділ',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440010',
+    label: 'Андрій Лисенко',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440011',
+    label: 'Марина Шевченко',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440012',
+    label: 'Віталій Гончарук',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440013',
+    label: 'Світлана Романенко',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440014',
+    label: 'Євген Коваленко',
   },
 ];
-
-
 
 export const selectedList = [
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
     label: 'Дмитро Сидоров',
-    value: {
-      firstName: 'Дмитро',
-      lastName: 'Сидоров',
-      email: 'dmitry.sidorov@example.com',
-      phone: '+380933456789',
-    },
-    group: 'IT-відділ',
+    isFixed: true,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
     label: 'Катерина Смирнова',
-    value: {
-      firstName: 'Катерина',
-      lastName: 'Смирнова',
-      email: 'ekaterina.smirnova@example.com',
-      phone: '+380974567890',
-    },
-    group: 'Відділ маркетингу',
+    isFixed: true,
   },
 ];

@@ -1,181 +1,121 @@
 import './styles/scss/DualListBox.scss';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAngleLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faAngleLeft, faAngleRight, faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-interface Item {
+interface ListItem {
   id: string;
   label: string;
+  isGroup?: boolean;
+  isFixed?: boolean;
 }
 
 interface DualListBoxProps {
-  availableList: Item[];
-  selectedList?: Item[];
-  title: string;
+  labelOptions: string;
+  labelSelected: string;
+  placeholder: string;
+  options: ListItem[];
+  selectedValues: ListItem[];
+  maxInputHeight: number;
+  isInvalid?: boolean;
+  disabled?: boolean;
+  invalidMessage?: string;
+  clearable?: boolean;
+  className?: string;
+
 }
 
-const DualListBox: React.FC<DualListBoxProps> = (props: Du) => {
-  const [availableItems, setAvailableItems] = useState(availableList);
-  const [selectedItems, setSelectedItems] = useState(selectedList);
-  const [activeItem, setActiveItem] = useState('');
+const DualListBox: React.FC<DualListBoxProps> = (props) => {
+  const { options, selectedValues, } = props;
+  const [availableItems, setAvailableItems] = useState(options || []);
+  const [selectedItems, setSelectedItems] = useState(selectedValues || []);
+  const [activeItems, setActiveItems] = useState('');
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(props.invalidMessage ?? '');
+  
+  
+  const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
+    const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
 
-  // Обработчик клика по элементу, устанавливает активный элемент
-  const handleItemClick = (id: string) => {
-    setActiveItem(id);
-    setError('');
-  };
+    const groups = filteredItems.filter((item) => item.isGroup);
+    const individuals = filteredItems.filter((item) => !item.isGroup);
 
-  // Обработчик изменения фильтра для доступных элементов
-  const handleFilterAvailableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterAvailable(e.target.value);
-    setError('');
-  };
+    groups.sort((a, b) => a.label.localeCompare(b.label));
+    individuals.sort((a, b) => a.label.localeCompare(b.label));
 
-  // Обработчик изменения фильтра для выбранных элементов
-  const handleFilterSelectedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterSelected(e.target.value);
-    setError('');
-  };
+    return [...groups, ...individuals];
+  }
 
-  // Функция для сортировки элементов
-
-  const sortedItems = (items: Item[]) => {
-    return items.sort((a, b) => a.label.localeCompare(b.label));
-  };
-
-  // Функция для перемещения элемента из доступных в выбранные
-  const moveItemToSelected = () => {
-    if (!activeItem) {
-      setError('Оберіть елемент');
-      return;
-    }
-    const item = availableItems.find((item) => item.id === activeItem);
-    if (!item) return; // если элемент не найден
-    setSelectedItems([...selectedItems, item]);
-    setAvailableItems(availableItems.filter((item) => item.id !== activeItem));
-    setActiveItem('');
-    setError('');
-  };
-
-  // Функция для перемещения элемента из выбранных в доступные
-  const moveItemToAvailable = () => {
-    if (!activeItem) {
-      setError('Оберіть елемент');
-      return;
-    }
-    const item = selectedItems.find((item) => item.id === activeItem);
-    if (!item) return; // если элемент не найден
-    setAvailableItems([...availableItems, item]);
-    setSelectedItems(selectedItems.filter((item) => item.id !== activeItem));
-    setActiveItem('');
-    setError('');
-  };
-
-  // Функция для перемещения всех элементов из доступных в выбранные
-  const moveItemAllToSelected = () => {
-    setSelectedItems([...selectedItems, ...availableItems]);
-    setAvailableItems([]);
-    setError('');
-  };
-
-  // Функция для перемещения всех элементов из выбранных в доступные
-  const moveItemAllToAvailable = () => {
-    setAvailableItems([...availableItems, ...selectedItems]);
-    setSelectedItems([]);
-    setError('Оберіть елемент');
-  };
-
-  // Отсортированные доступные и выбранные элементы
-  const sortedAvailableItems = sortedItems(availableItems).filter((item) =>
-    item.label.toLowerCase().includes(filterAvailable.toLowerCase())
-  );
-  const sortedSelectedItems = sortedItems(selectedItems).filter((item) =>
-    item.label.toLowerCase().includes(filterSelected.toLowerCase())
-  );
-
-  console.log('dd');
+  const filteredAvailableItems = getFilteredAndSortedItems(availableItems, filterAvailable);
+  const filteredSelectedItems = getFilteredAndSortedItems(selectedItems, filterSelected);
+  
+  console.log('ssss ')  ;
+  
   return (
     <div className="dual-list-box">
-      <div className="dual-list-box__title">
-        <p>{title}</p>
-      </div>
-      <div className="dual-list-box__error">
-        <p>{error}</p>
-      </div>
       <div className="dual-list-box__content">
         <div className="dual-list-box__available">
-          <h4 className="dual-list-box__list-title">Доступні варіанти </h4>
+          <h4 className="dual-list-box__list-label">{props.labelOptions} </h4>
           <div className="dual-list-box__search">
-            <input type="text" placeholder="Пошук" value={filterAvailable} onChange={handleFilterAvailableChange} />
+            <input
+              type="text"
+              placeholder="Пошук"
+              value={filterAvailable}
+              onChange={(e) => setFilterAvailable(e.target.value)}
+            />
+            {props.clearable && (
+              <button className="dual-list-box__btn-clear-filter" onClick={() => setFilterAvailable('')}>
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            )}
           </div>
           <div className="dual-list-box__list">
-            {sortedAvailableItems.map((item) => (
-              <div
-                key={item.id}
-                className={`dual-list-box__list-item ${
-                  item.id === activeItem ? 'dual-list-box__list-item--active' : ''
-                }`}
-                onClick={() => handleItemClick(item.id)}
-                onDoubleClick={moveItemToSelected}>
+            {filteredAvailableItems.map((item) => (
+              <div key={item.id} className="dual-list-box__list-item">
                 {item.label}
               </div>
             ))}
           </div>
         </div>
         <div className="dual-list-box__controls">
-          <button
-            className="dual-list-box__control"
-            onClick={moveItemToSelected}
-            disabled={sortedAvailableItems.length === 0}
-          >
+          <button className="dual-list-box__control">
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
-          <button
-            className="dual-list-box__control"
-            onClick={moveItemAllToSelected}
-            disabled={sortedAvailableItems.length === 0}
-          >
-            <FontAwesomeIcon icon={faAnglesRight} />
-          </button>
-          <button
-            className="dual-list-box__control"
-            onClick={moveItemToAvailable}
-            disabled={sortedSelectedItems.length === 0}
-          >
+          <button className="dual-list-box__control">
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          <button
-            className="dual-list-box__control"
-            onClick={moveItemAllToAvailable}
-            disabled={sortedSelectedItems.length === 0}
-          >
+          <button className="dual-list-box__control">
+            <FontAwesomeIcon icon={faAnglesRight} />
+          </button>
+
+          <button className="dual-list-box__control">
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
         <div className="dual-list-box__selected">
-          <h4 className="dual-list-box__list-title">Вибрані варіанти</h4>
+          <h4 className="dual-list-box__list-label">{props.labelSelected}</h4>
           <div className="dual-list-box__search">
-            <input type="text" placeholder="Пошук" value={filterSelected} onChange={handleFilterSelectedChange} />
+            <input type="text" placeholder="Пошук"  value={filterSelected} onChange={(e) =>  setFilterSelected(e.target.value)}  />
+            {props.clearable && (
+              <button className="dual-list-box__btn-clear-filter" onClick={() => setFilterSelected('')}>
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            )}
+
           </div>
           <div className="dual-list-box__list">
-            {sortedSelectedItems.map((item) => (
-              <div
-                key={item.id}
-                className={`dual-list-box__list-item ${
-                  item.id === activeItem ? 'dual-list-box__list-item--active' : ''
-                }`}
-                onClick={() => handleItemClick(item.id)}
-                onDoubleClick={moveItemToAvailable}
-              >
+            {filteredSelectedItems.map((item) => (
+              <div key={item.id} className="dual-list-box__list-item">
                 {item.label}
               </div>
             ))}
           </div>
         </div>
+      </div>
+      <div className="dual-list-box__error">
+        <p>{error}</p>
       </div>
     </div>
   );

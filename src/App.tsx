@@ -10,17 +10,18 @@ function App() {
         <h1>Додаток для вибору ________</h1>
         <p>Додайте ________ в список</p>
         <DualListBox
-          label={'Додати ________'}
-          placeholder={'Placeholder'}
+          labelOptions='Додати ________'
+          labelSelected='Вибрані ________'
+          placeholder='Placeholder'
           options={availableList}
           selectedValues={selectedList}
           maxInputHeight={200}
           isInvalid={false}
           disabled={false}
-          invalidMessage={'Invalid message'}
+          invalidMessage='Invalid message'
           clearable={true}
-          title={'DualListBox'}
-          className={'custom-class'}
+          className='custom-class'
+          // onPresetSelected={}
         />
       </div>
     </div>
