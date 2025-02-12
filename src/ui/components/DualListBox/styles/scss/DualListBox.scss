@@ -206,6 +206,10 @@ $error-color: red;
       margin-left: 15px;
       
     }
+    &--fixed {
+     pointer-events: none;
+     opacity: 0.5;
+    }
   }
 
 }

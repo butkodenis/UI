@@ -31,11 +31,11 @@ interface DualListBoxProps {
   invalidMessage?: string;
   clearable?: boolean;
   className?: string;
-
+  onSelectedChange: (selectedItems: ListItem[]) => void;
 }
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
-  const { options, selectedValues } = props;
+  const { options, selectedValues, onSelectedChange } = props;
   const [availableItems, setAvailableItems] = useState(options || []);
   const [selectedItems, setSelectedItems] = useState(selectedValues || []);
   const [activeItems, setActiveItems] = useState([]);
@@ -45,25 +45,27 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   const [error, setError] = useState(props.invalidMessage ?? '');
 
   // Функция для фильтрации и сортировки элементов списка
-const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
-  // Фильтруем элементы по введенному значению
-  const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
-  const groups = filteredItems.filter((item) => item.isGroup);
-  const individuals = filteredItems.filter((item) => !item.isGroup);
+  const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
+    // Фильтруем элементы по введенному значению
+    const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
+    const groups = filteredItems.filter((item) => item.isGroup);
+    const individuals = filteredItems.filter((item) => !item.isGroup);
 
-  // Сортируем только незафиксированные элементы
-  const sortedGroups = groups.filter((item) => !item.isFixed).sort((a, b) => a.label.localeCompare(b.label));
-  const sortedIndividuals = individuals.filter((item) => !item.isFixed).sort((a, b) => a.label.localeCompare(b.label));
+    // Сортируем только незафиксированные элементы
+    const sortedGroups = groups.filter((item) => !item.isFixed).sort((a, b) => a.label.localeCompare(b.label));
+    const sortedIndividuals = individuals
+      .filter((item) => !item.isFixed)
+      .sort((a, b) => a.label.localeCompare(b.label));
 
-  // Добавляем зафиксированные элементы в начало списка
-  const fixedGroups = groups.filter((item) => item.isFixed);
-  const fixedIndividuals = individuals.filter((item) => item.isFixed);
+    // Добавляем зафиксированные элементы в начало списка
+    const fixedGroups = groups.filter((item) => item.isFixed);
+    const fixedIndividuals = individuals.filter((item) => item.isFixed);
 
-  return {
-    groups: [...fixedGroups, ...sortedGroups],
-    individuals: [...fixedIndividuals, ...sortedIndividuals],
+    return {
+      groups: [...fixedGroups, ...sortedGroups],
+      individuals: [...fixedIndividuals, ...sortedIndividuals],
+    };
   };
-};
 
   // Получение отфильтрованных и отсортированных элементов для доступных и выбранных списков
   const { groups: availableGroups, individuals: availableIndividuals } = getFilteredAndSortedItems(
@@ -84,9 +86,8 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
 
   // Функция для обработки выбора элемента
   const handleSelect = (item: ListItem, event: React.MouseEvent, listType: 'available' | 'selected') => {
-
     const currentActiveItems = listType === 'available' ? availableIndividuals : selectedIndividuals;
-    
+
     if (item.isFixed) {
       return;
     }
@@ -112,7 +113,7 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
     }
   };
 
-  // Функция для перемещения элементов в 
+  // Функция для перемещения элементов в
   const moveItemsToSelected = () => {
     setSelectedItems([...selectedItems, ...availableIndividuals]);
     setAvailableItems(availableItems.filter((item) => item.isGroup));
@@ -130,7 +131,7 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
     setActiveItems([]);
   };
 
-  const moveItem = () => {
+  const moveItemToSelected = () => {
     // Получаем только те активные элементы, которые есть в списке доступных
     const itemsToMove = activeItems.filter((item) =>
       availableItems.some((availableItem) => availableItem.id === item.id)
@@ -143,6 +144,23 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
 
     // Удаляем перемещенные элементы из списка доступных
     setAvailableItems(availableItems.filter((item) => !itemsToMove.some((activeItem) => activeItem.id === item.id)));
+
+    // Очищаем список активных элементов
+    setActiveItems([]);
+    
+  };
+
+  const moveItemToAvailable = () => {
+    // Получаем только те активные элементы, которые есть в списке выбранных
+    const itemsToMove = activeItems.filter((item) => selectedItems.some((selectedItem) => selectedItem.id === item.id));
+
+    if (itemsToMove.length === 0) return;
+
+    // Добавляем выбранные элементы в список доступных
+    setAvailableItems([...availableItems, ...itemsToMove]);
+
+    // Удаляем перемещенные элементы из списка выбранных
+    setSelectedItems(selectedItems.filter((item) => !itemsToMove.some((activeItem) => activeItem.id === item.id)));
 
     // Очищаем список активных элементов
     setActiveItems([]);
@@ -183,31 +201,38 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
                   activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
                 }`}
                 onClick={(e) => handleSelect(item, e, 'available')}
+                onDoubleClick={moveItemToSelected}
               >
                 {item.label}
               </div>
             ))}
           </div>
         </div>
+
         <div className="dual-list-box__controls">
-          <button className="dual-list-box__control" onClick={moveItem}>
+          <button className="dual-list-box__control" onClick={moveItemToSelected} disabled={availableIndividuals.length === 0}>
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
-          <button className="dual-list-box__control" disabled={selectedIndividuals.length === 0}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemToAvailable}
+            disabled={selectedIndividuals.filter((item) => !item.isFixed).length === 0}
+          >
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          <button className="dual-list-box__control" onClick={moveItemsToSelected}>
+          <button className="dual-list-box__control" onClick={moveItemsToSelected} disabled={availableIndividuals.length === 0}>
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
 
           <button
             className="dual-list-box__control"
             onClick={moveItemsToAvailable}
-            disabled={selectedIndividuals.length === 0}
+            disabled={selectedIndividuals.filter((item) => !item.isFixed).length === 0}
           >
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
+
         <div className="dual-list-box__selected">
           <h4 className="dual-list-box__list-label">{props.labelSelected}</h4>
           <div className="dual-list-box__search">
@@ -229,8 +254,9 @@ const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
                 key={item.id}
                 className={`dual-list-box__list-item ${
                   activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
-                }`}
+                } ${item.isFixed ? 'dual-list-box__list-item--fixed' : ''}`}
                 onClick={(e) => handleSelect(item, e, 'selected')}
+                onDoubleClick={moveItemToAvailable}
               >
                 {item.label}
               </div>
