@@ -71,7 +71,7 @@ export const selectedList = [
     isFixed: true,
   },
   {
-    id: '550e8400-e29b-41d4-a716-446655440006',
+    id: '550e8400-e29b-41d4-a716-446655440066',
     label: 'Катерина Смирнова',
     isFixed: true,
   },

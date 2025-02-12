@@ -9,7 +9,7 @@ import {
   faAnglesRight,
   faXmark,
   faCaretUp,
-faCaretDown,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface ListItem {
@@ -31,7 +31,6 @@ interface DualListBoxProps {
   invalidMessage?: string;
   clearable?: boolean;
   className?: string;
-
 }
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
@@ -79,19 +78,42 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
       return;
     }
 
-    if (event.shiftKey) {
-      // Если нажат Shift, добавляем элемент к выделенной группе
-      setActiveItems((prev) => {
-        if (prev.includes(item)) {
-          return prev.filter((i) => i.id !== item.id);
-        } else {
-          return [...prev, item];
-        }
-      });
+    if (event.ctrlKey) {
+      if (activeItems.includes(item)) {
+        setActiveItems(activeItems.filter((i) => i !== item));
+      } else {
+        setActiveItems([...activeItems, item]);
+      }
+    } else if (event.shiftKey) {
+      console.log('shiftKey', item.id);
+      //console.log('activeKay', activeItems[0].id);
+
+      const lastActiveIndex = availableIndividuals.findIndex((i) => i.id === activeItems[0].id);
+      const currentActiveIndex = availableIndividuals.findIndex((i) => i.id === item.id);
+      const start = Math.min(lastActiveIndex, currentActiveIndex);
+      const end = Math.max(lastActiveIndex, currentActiveIndex);
+      const rangeActiveItems = availableIndividuals.slice(start, end + 1);
+      setActiveItems(rangeActiveItems);
     } else {
-      // Если Shift не нажат, выделяем только этот элемент
       setActiveItems([item]);
     }
+  };
+
+  const moveAllItems = () => {
+    setSelectedItems([...selectedItems, ...availableIndividuals]);
+    setAvailableItems(availableItems.filter((item) => item.isGroup));
+    setActiveItems([]);
+  };
+
+  const moveSelectedItems = () => {
+    // Разделяем зафиксированные и незафиксированные элементы
+    const fixedItems = selectedItems.filter((item) => item.isFixed);
+    const movableItems = selectedItems.filter((item) => !item.isFixed);
+
+    // Перемещаем только незафиксированные элементы в доступные
+    setAvailableItems([...availableItems, ...movableItems]);
+    setSelectedItems(fixedItems);
+    setActiveItems([]);
   };
 
   return (
@@ -142,11 +164,11 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           <button className="dual-list-box__control">
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" onClick={moveAllItems}>
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
 
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" onClick={moveSelectedItems}>
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
@@ -167,7 +189,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           </div>
           <div className="dual-list-box__list">
             {selectedIndividuals.map((item) => (
-              <div key={item.id} className="dual-list-box__list-item">
+              <div
+                key={item.id}
+                className={`dual-list-box__list-item ${
+                  activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
+                }`}
+                onClick={(e) => handleSelect(item, e)}
+              >
                 {item.label}
               </div>
             ))}
