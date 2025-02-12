@@ -31,6 +31,7 @@ interface DualListBoxProps {
   invalidMessage?: string;
   clearable?: boolean;
   className?: string;
+
 }
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
@@ -44,16 +45,25 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   const [error, setError] = useState(props.invalidMessage ?? '');
 
   // Функция для фильтрации и сортировки элементов списка
-  const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
-    const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
-    const groups = filteredItems.filter((item) => item.isGroup);
-    const individuals = filteredItems.filter((item) => !item.isGroup);
+const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
+  // Фильтруем элементы по введенному значению
+  const filteredItems = items.filter((item) => item.label.toLowerCase().includes(filter.toLowerCase()));
+  const groups = filteredItems.filter((item) => item.isGroup);
+  const individuals = filteredItems.filter((item) => !item.isGroup);
 
-    groups.sort((a, b) => a.label.localeCompare(b.label));
-    individuals.sort((a, b) => a.label.localeCompare(b.label));
+  // Сортируем только незафиксированные элементы
+  const sortedGroups = groups.filter((item) => !item.isFixed).sort((a, b) => a.label.localeCompare(b.label));
+  const sortedIndividuals = individuals.filter((item) => !item.isFixed).sort((a, b) => a.label.localeCompare(b.label));
 
-    return { groups, individuals };
+  // Добавляем зафиксированные элементы в начало списка
+  const fixedGroups = groups.filter((item) => item.isFixed);
+  const fixedIndividuals = individuals.filter((item) => item.isFixed);
+
+  return {
+    groups: [...fixedGroups, ...sortedGroups],
+    individuals: [...fixedIndividuals, ...sortedIndividuals],
   };
+};
 
   // Получение отфильтрованных и отсортированных элементов для доступных и выбранных списков
   const { groups: availableGroups, individuals: availableIndividuals } = getFilteredAndSortedItems(
@@ -73,7 +83,10 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   };
 
   // Функция для обработки выбора элемента
-  const handleSelect = (item: ListItem, event: React.MouseEvent) => {
+  const handleSelect = (item: ListItem, event: React.MouseEvent, listType: 'available' | 'selected') => {
+
+    const currentActiveItems = listType === 'available' ? availableIndividuals : selectedIndividuals;
+    
     if (item.isFixed) {
       return;
     }
@@ -88,24 +101,25 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
       console.log('shiftKey', item.id);
       //console.log('activeKay', activeItems[0].id);
 
-      const lastActiveIndex = availableIndividuals.findIndex((i) => i.id === activeItems[0].id);
-      const currentActiveIndex = availableIndividuals.findIndex((i) => i.id === item.id);
+      const lastActiveIndex = currentActiveItems.findIndex((i) => i.id === activeItems[0].id);
+      const currentActiveIndex = currentActiveItems.findIndex((i) => i.id === item.id);
       const start = Math.min(lastActiveIndex, currentActiveIndex);
       const end = Math.max(lastActiveIndex, currentActiveIndex);
-      const rangeActiveItems = availableIndividuals.slice(start, end + 1);
+      const rangeActiveItems = currentActiveItems.slice(start, end + 1);
       setActiveItems(rangeActiveItems);
     } else {
       setActiveItems([item]);
     }
   };
 
-  const moveAllItems = () => {
+  // Функция для перемещения элементов в 
+  const moveItemsToSelected = () => {
     setSelectedItems([...selectedItems, ...availableIndividuals]);
     setAvailableItems(availableItems.filter((item) => item.isGroup));
     setActiveItems([]);
   };
 
-  const moveSelectedItems = () => {
+  const moveItemsToAvailable = () => {
     // Разделяем зафиксированные и незафиксированные элементы
     const fixedItems = selectedItems.filter((item) => item.isFixed);
     const movableItems = selectedItems.filter((item) => !item.isFixed);
@@ -113,6 +127,24 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     // Перемещаем только незафиксированные элементы в доступные
     setAvailableItems([...availableItems, ...movableItems]);
     setSelectedItems(fixedItems);
+    setActiveItems([]);
+  };
+
+  const moveItem = () => {
+    // Получаем только те активные элементы, которые есть в списке доступных
+    const itemsToMove = activeItems.filter((item) =>
+      availableItems.some((availableItem) => availableItem.id === item.id)
+    );
+
+    if (itemsToMove.length === 0) return;
+
+    // Добавляем выбранные элементы в список выбранных
+    setSelectedItems([...selectedItems, ...itemsToMove]);
+
+    // Удаляем перемещенные элементы из списка доступных
+    setAvailableItems(availableItems.filter((item) => !itemsToMove.some((activeItem) => activeItem.id === item.id)));
+
+    // Очищаем список активных элементов
     setActiveItems([]);
   };
 
@@ -150,7 +182,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                 className={`dual-list-box__list-item ${
                   activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
                 }`}
-                onClick={(e) => handleSelect(item, e)}
+                onClick={(e) => handleSelect(item, e, 'available')}
               >
                 {item.label}
               </div>
@@ -158,17 +190,21 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           </div>
         </div>
         <div className="dual-list-box__controls">
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" onClick={moveItem}>
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" disabled={selectedIndividuals.length === 0}>
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          <button className="dual-list-box__control" onClick={moveAllItems}>
+          <button className="dual-list-box__control" onClick={moveItemsToSelected}>
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
 
-          <button className="dual-list-box__control" onClick={moveSelectedItems}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemsToAvailable}
+            disabled={selectedIndividuals.length === 0}
+          >
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
@@ -194,7 +230,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                 className={`dual-list-box__list-item ${
                   activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
                 }`}
-                onClick={(e) => handleSelect(item, e)}
+                onClick={(e) => handleSelect(item, e, 'selected')}
               >
                 {item.label}
               </div>

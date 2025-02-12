@@ -4,6 +4,12 @@ import DualListBox from './ui/components/DualListBox/DualListBox';
 import { availableList, selectedList } from './mockData/data';
 
 function App() {
+
+  const onSelectedChange = (selectedItems : []) => {
+    console.log(selectedItems.length);
+  };
+
+
   return (
     <div className="App">
       <div className="wraper">
@@ -21,7 +27,7 @@ function App() {
           invalidMessage='Invalid message'
           clearable={true}
           className='custom-class'
-          // onPresetSelected={}
+          onSelectedChange={onSelectedChange}
         />
       </div>
     </div>
