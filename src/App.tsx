@@ -1,15 +1,17 @@
 import './styles/scss/app.scss';
 import DualListBox from './ui/components/DualListBox/DualListBox';
 
-import { availableList, selectedList, group1 } from './mockData/data';
+import { availableList, selectedList, group1,  } from './mockData/data';
+import { ListItem } from './ui/components/DualListBox/DualListBox.types';
 
 function App() {
 
-  const handleSelectedChange = (selectedItems: []) => {
+  const handleSelectedChange = (selectedItems: ListItem[]) => {
     console.log(selectedItems.length);
   };
 
   const getGroupUsers = ( id : string ) => {
+    console.log(id);
      return group1;
   };
 

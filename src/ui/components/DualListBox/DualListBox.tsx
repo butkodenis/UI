@@ -12,34 +12,13 @@ import {
   faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
-interface ListItem {
-  id: string;
-  label: string;
-  isGroup?: boolean;
-  isFixed?: boolean;
-}
-
-interface DualListBoxProps {
-  labelOptions: string;
-  labelSelected: string;
-  placeholder: string;
-  options: ListItem[];
-  selectedValues: ListItem[];
-  maxInputHeight: number;
-  isInvalid?: boolean;
-  disabled?: boolean;
-  invalidMessage?: string;
-  clearable?: boolean;
-  className?: string;
-  onSelectedChange: (selectedItems: ListItem[]) => void;
-  onGroupUsers: (id: string) => ListItem[];
-}
+import { ListItem, DualListBoxProps } from './DualListBox.types';
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
   const { options, selectedValues, onSelectedChange, onGroupUsers } = props;
   const [availableItems, setAvailableItems] = useState(options || []);
   const [selectedItems, setSelectedItems] = useState(selectedValues || []);
-  const [activeItems, setActiveItems] = useState([]);
+  const [activeItems, setActiveItems] = useState<ListItem[]>([]);
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
   const [isGroupVisible, setIsGroupVisible] = useState(true);
@@ -73,7 +52,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     availableItems,
     filterAvailable
   );
-  const { groups: selectedGroups, individuals: selectedIndividuals } = getFilteredAndSortedItems(
+  const { individuals: selectedIndividuals } = getFilteredAndSortedItems(
     selectedItems,
     filterSelected
   );
@@ -114,9 +93,10 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
-  const hendleGroupUsers = (item: ListItem, event: React.MouseEvent) => {
+  const hendleGroupUsers = (item: ListItem, e) => {
     if (item.isGroup) {
-      setActiveItems((prevActiveItems) => [item]);
+      setActiveItems([item]);
+      
       console.log('groupUsers id:', [item]);
     }
   };
@@ -126,6 +106,14 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     setSelectedItems([...selectedItems, ...availableIndividuals]);
     setAvailableItems(availableItems.filter((item) => item.isGroup));
     setActiveItems([]);
+    if (activeItems.length === 0) {
+      setError('Виберіть користувача');
+    }
+    if (onSelectedChange)
+    {
+      onSelectedChange(selectedItems);
+    }
+
   };
 
   const moveItemsToAvailable = () => {
