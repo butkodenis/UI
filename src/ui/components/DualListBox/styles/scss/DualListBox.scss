@@ -15,6 +15,16 @@ $error-color: red;
   min-height: 150px;
   padding: 5px;
 
+  &--disabled {
+    background-color: $disabled-color;
+    color: $disabled-text-color;
+    cursor: not-allowed;
+  }
+
+  &--invalid {
+    border: 2px solid $error-color;
+  }
+
   &__label {
     width: 100%;
     text-align: center;
@@ -32,6 +42,8 @@ $error-color: red;
       margin: 5px;
     }
   }
+
+  
 
   &__content {
     display: flex;

@@ -1,6 +1,6 @@
 import './styles/scss/DualListBox.scss';
 
-import React, { useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAnglesLeft,
@@ -15,9 +15,9 @@ import {
 import { ListItem, DualListBoxProps } from './DualListBox.types';
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
-  const { options, selectedValues, onSelectedChange, onGroupUsers } = props;
-  const [availableItems, setAvailableItems] = useState(options || []);
-  const [selectedItems, setSelectedItems] = useState(selectedValues || []);
+  
+  const [availableItems, setAvailableItems] = useState(props.options || []);
+  const [selectedItems, setSelectedItems] = useState(props.selectedValues || []);
   const [activeItems, setActiveItems] = useState<ListItem[]>([]);
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
@@ -52,10 +52,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     availableItems,
     filterAvailable
   );
-  const { individuals: selectedIndividuals } = getFilteredAndSortedItems(
-    selectedItems,
-    filterSelected
-  );
+  const { individuals: selectedIndividuals } = getFilteredAndSortedItems(selectedItems, filterSelected);
 
   console.log('ssss ');
 
@@ -93,53 +90,59 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
-  const hendleGroupUsers = (item: ListItem, e) => {
+  const hendleGroupUsers = (item: ListItem, e: React.MouseEvent) => {
     if (item.isGroup) {
       setActiveItems([item]);
-      
+      console.log('groupUsers e:', e.target);
       console.log('groupUsers id:', [item]);
     }
   };
 
-  // Функция для перемещения элементов в
+  // Функция для перемещения всех элементов в выбранные
   const moveItemsToSelected = () => {
-    setSelectedItems([...selectedItems, ...availableIndividuals]);
+    // Фильтруем элементы, чтобы добавить только уникальные в список выбранных
+    const uniqueItemsToMove = availableIndividuals.filter(
+      (item) => !selectedItems.some((selectedItem) => selectedItem.id === item.id)
+    );
+
+    setSelectedItems([...selectedItems, ...uniqueItemsToMove]);
+    // Очищаем список доступных элементов кроме групп
     setAvailableItems(availableItems.filter((item) => item.isGroup));
     setActiveItems([]);
-    if (activeItems.length === 0) {
-      setError('Виберіть користувача');
-    }
-    if (onSelectedChange)
-    {
-      onSelectedChange(selectedItems);
-    }
 
+   
+    
   };
 
+  // Функция для перемещения всех элементов в доступные
   const moveItemsToAvailable = () => {
     // Разделяем зафиксированные и незафиксированные элементы
     const fixedItems = selectedItems.filter((item) => item.isFixed);
     const movableItems = selectedItems.filter((item) => !item.isFixed);
+    // Фильтруем элементы, чтобы добавить только уникальные в список доступных
+    const uniqueItemsToMove = movableItems.filter(
+      (item) => !availableItems.some((availableItem) => availableItem.id === item.id)
+    );
 
     // Перемещаем только незафиксированные элементы в доступные
-    setAvailableItems([...availableItems, ...movableItems]);
+    setAvailableItems([...availableItems, ...uniqueItemsToMove]);
     setSelectedItems(fixedItems);
     setActiveItems([]);
 
-    if (onSelectedChange)
-    {
-      onSelectedChange(selectedItems);
-    }
+    
   };
 
+  // Функция для перемещения элемента в выбранные
   const moveItemToSelected = () => {
     if (activeItems.some((item) => item.isGroup)) {
-      const groupUsers = onGroupUsers(activeItems[0].id);
-     const uniqueGroupUsers = groupUsers.filter(
-       (groupUser) => !selectedItems.some((selectedItem) => selectedItem.id === groupUser.id)
-     );
-     setSelectedItems([...selectedItems, ...uniqueGroupUsers]);
-     setActiveItems([]);
+      if (props.onGroupUsers  ) {
+        const groupUsers = props.onGroupUsers(activeItems[0].id);
+        const uniqueGroupUsers = groupUsers.filter(
+          (groupUser) => !selectedItems.some((selectedItem) => selectedItem.id === groupUser.id)
+        );
+        setSelectedItems([...selectedItems, ...uniqueGroupUsers]);
+        setActiveItems([]);
+      }
       return;
     }
     // Получаем только те активные элементы, которые есть в списке доступных
@@ -157,8 +160,11 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
     // Очищаем список активных элементов
     setActiveItems([]);
+
+    
   };
 
+  // Функция для перемещения элемента в доступные
   const moveItemToAvailable = () => {
     // Получаем только те активные элементы, которые есть в списке выбранных
     const itemsToMove = activeItems.filter((item) => selectedItems.some((selectedItem) => selectedItem.id === item.id));
@@ -171,17 +177,25 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     );
 
     // Добавляем выбранные элементы в список доступных
-   setAvailableItems((prevAvailableItems) => [...prevAvailableItems, ...uniqueItemsToMove]);
+    setAvailableItems((prevAvailableItems) => [...prevAvailableItems, ...uniqueItemsToMove]);
 
     // Удаляем перемещенные элементы из списка выбранных
     setSelectedItems(selectedItems.filter((item) => !itemsToMove.some((activeItem) => activeItem.id === item.id)));
 
     // Очищаем список активных элементов
     setActiveItems([]);
+
+  
   };
 
+  useEffect (() => {
+    props.onSelectedChange(selectedItems);
+  }, [selectedItems]);
+
+
+
   return (
-    <div className="dual-list-box">
+    <div className={`dual-list-box ${  props.isInvalid ? 'dual-list-box--invalid' : '' } `}>
       <div className="dual-list-box__content">
         <div className="dual-list-box__available">
           <h4 className="dual-list-box__list-label">{props.labelOptions} </h4>
@@ -233,7 +247,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           <button
             className="dual-list-box__control"
             onClick={moveItemToSelected}
-            disabled={availableIndividuals.length === 0}
+            disabled={availableIndividuals.length === 0 && activeItems.length === 0}
           >
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
