@@ -1,6 +1,6 @@
 import './styles/scss/DualListBox.scss';
 
-import { useState, useMemo } from 'react';
+import React, { useState  } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAnglesLeft,
@@ -32,10 +32,11 @@ interface DualListBoxProps {
   clearable?: boolean;
   className?: string;
   onSelectedChange: (selectedItems: ListItem[]) => void;
+  onGroupUsers: (id: string) => ListItem[];
 }
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
-  const { options, selectedValues, onSelectedChange } = props;
+  const { options, selectedValues, onSelectedChange, onGroupUsers } = props;
   const [availableItems, setAvailableItems] = useState(options || []);
   const [selectedItems, setSelectedItems] = useState(selectedValues || []);
   const [activeItems, setActiveItems] = useState([]);
@@ -113,6 +114,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
+  const hendleGroupUsers = (item: ListItem, event: React.MouseEvent) => {
+    if (item.isGroup) {
+      setActiveItems((prevActiveItems) => [item]);
+      console.log('groupUsers id:', [item]);
+    }
+  };
+
   // Функция для перемещения элементов в
   const moveItemsToSelected = () => {
     setSelectedItems([...selectedItems, ...availableIndividuals]);
@@ -129,9 +137,23 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     setAvailableItems([...availableItems, ...movableItems]);
     setSelectedItems(fixedItems);
     setActiveItems([]);
+
+    if (onSelectedChange)
+    {
+      onSelectedChange(selectedItems);
+    }
   };
 
   const moveItemToSelected = () => {
+    if (activeItems.some((item) => item.isGroup)) {
+      const groupUsers = onGroupUsers(activeItems[0].id);
+     const uniqueGroupUsers = groupUsers.filter(
+       (groupUser) => !selectedItems.some((selectedItem) => selectedItem.id === groupUser.id)
+     );
+     setSelectedItems([...selectedItems, ...uniqueGroupUsers]);
+     setActiveItems([]);
+      return;
+    }
     // Получаем только те активные элементы, которые есть в списке доступных
     const itemsToMove = activeItems.filter((item) =>
       availableItems.some((availableItem) => availableItem.id === item.id)
@@ -147,7 +169,6 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
     // Очищаем список активных элементов
     setActiveItems([]);
-    
   };
 
   const moveItemToAvailable = () => {
@@ -156,8 +177,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
     if (itemsToMove.length === 0) return;
 
+    // Фильтруем элементы, чтобы добавить только уникальные в список доступных
+    const uniqueItemsToMove = itemsToMove.filter(
+      (item) => !availableItems.some((availableItem) => availableItem.id === item.id)
+    );
+
     // Добавляем выбранные элементы в список доступных
-    setAvailableItems([...availableItems, ...itemsToMove]);
+   setAvailableItems((prevAvailableItems) => [...prevAvailableItems, ...uniqueItemsToMove]);
 
     // Удаляем перемещенные элементы из списка выбранных
     setSelectedItems(selectedItems.filter((item) => !itemsToMove.some((activeItem) => activeItem.id === item.id)));
@@ -190,7 +216,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
             </div>
             {isGroupVisible &&
               availableGroups.map((item) => (
-                <div key={item.id} className="dual-list-box__list-item dual-list-box__list-item--group">
+                <div
+                  key={item.id}
+                  className={`dual-list-box__list-item dual-list-box__list-item--group ${
+                    activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
+                  }`}
+                  onClick={(e) => hendleGroupUsers(item, e)}
+                >
                   {item.label}
                 </div>
               ))}
@@ -210,7 +242,11 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
         </div>
 
         <div className="dual-list-box__controls">
-          <button className="dual-list-box__control" onClick={moveItemToSelected} disabled={availableIndividuals.length === 0}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemToSelected}
+            disabled={availableIndividuals.length === 0}
+          >
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
           <button
@@ -220,7 +256,11 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           >
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          <button className="dual-list-box__control" onClick={moveItemsToSelected} disabled={availableIndividuals.length === 0}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemsToSelected}
+            disabled={availableIndividuals.length === 0}
+          >
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
 

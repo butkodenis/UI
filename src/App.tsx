@@ -1,18 +1,22 @@
 import './styles/scss/app.scss';
 import DualListBox from './ui/components/DualListBox/DualListBox';
 
-import { availableList, selectedList } from './mockData/data';
+import { availableList, selectedList, group1 } from './mockData/data';
 
 function App() {
 
-  const onSelectedChange = (selectedItems : []) => {
+  const handleSelectedChange = (selectedItems: []) => {
     console.log(selectedItems.length);
+  };
+
+  const getGroupUsers = ( id : string ) => {
+     return group1;
   };
 
 
   return (
     <div className="App">
-      <div className="wraper">
+      <div className="wrapper">
         <h1>Додаток для вибору ________</h1>
         <p>Додайте ________ в список</p>
         <DualListBox
@@ -27,7 +31,8 @@ function App() {
           invalidMessage='Invalid message'
           clearable={true}
           className='custom-class'
-          onSelectedChange={onSelectedChange}
+          onSelectedChange={handleSelectedChange}
+          onGroupUsers={getGroupUsers}
         />
       </div>
     </div>
