@@ -15,7 +15,6 @@ import {
 import { ListItem, DualListBoxProps } from './DualListBox.types';
 
 const DualListBox: React.FC<DualListBoxProps> = (props) => {
-  
   const [availableItems, setAvailableItems] = useState(props.options || []);
   const [selectedItems, setSelectedItems] = useState(props.selectedValues || []);
   const [activeItems, setActiveItems] = useState<ListItem[]>([]);
@@ -109,9 +108,6 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     // Очищаем список доступных элементов кроме групп
     setAvailableItems(availableItems.filter((item) => item.isGroup));
     setActiveItems([]);
-
-   
-    
   };
 
   // Функция для перемещения всех элементов в доступные
@@ -128,14 +124,12 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     setAvailableItems([...availableItems, ...uniqueItemsToMove]);
     setSelectedItems(fixedItems);
     setActiveItems([]);
-
-    
   };
 
   // Функция для перемещения элемента в выбранные
   const moveItemToSelected = () => {
     if (activeItems.some((item) => item.isGroup)) {
-      if (props.onGroupUsers  ) {
+      if (props.onGroupUsers) {
         const groupUsers = props.onGroupUsers(activeItems[0].id);
         const uniqueGroupUsers = groupUsers.filter(
           (groupUser) => !selectedItems.some((selectedItem) => selectedItem.id === groupUser.id)
@@ -160,8 +154,6 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
     // Очищаем список активных элементов
     setActiveItems([]);
-
-    
   };
 
   // Функция для перемещения элемента в доступные
@@ -184,18 +176,14 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
     // Очищаем список активных элементов
     setActiveItems([]);
-
-  
   };
 
-  useEffect (() => {
+  useEffect(() => {
     props.onSelectedChange(selectedItems);
   }, [selectedItems]);
 
-
-
   return (
-    <div className={`dual-list-box ${  props.isInvalid ? 'dual-list-box--invalid' : '' } `}>
+    <div className={`dual-list-box ${props.isInvalid ? 'dual-list-box--invalid' : ''} `}>
       <div className="dual-list-box__content">
         <div className="dual-list-box__available">
           <h4 className="dual-list-box__list-label">{props.labelOptions} </h4>
