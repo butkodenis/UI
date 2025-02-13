@@ -22,7 +22,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   const [filterAvailable, setFilterAvailable] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
   const [isGroupVisible, setIsGroupVisible] = useState(true);
-  const [error, setError] = useState(props.invalidMessage ?? '');
+  //const [error, setError] = useState(props.invalidMessage ?? '');
 
   // Функция для фильтрации и сортировки элементов списка
   const getFilteredAndSortedItems = (items: ListItem[], filter: string) => {
@@ -307,7 +307,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
         </div>
       </div>
       <div className="dual-list-box__error">
-        <p>{error}</p>
+        <p>{props.invalidMessage}</p>
       </div>
     </div>
   );

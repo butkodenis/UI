@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './styles/scss/app.scss';
 import DualListBox from './ui/components/DualListBox/DualListBox';
 
