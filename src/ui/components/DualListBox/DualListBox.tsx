@@ -46,14 +46,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     };
   };
 
-  // Получение отфильтрованных и отсортированных элементов для доступных и выбранных списков
+  // Получение отфильтрованных и отсортированных элементов для доступных
   const { groups: availableGroups, individuals: availableIndividuals } = getFilteredAndSortedItems(
     availableItems,
     filterAvailable
   );
+  // Получение отфильтрованных и отсортированных элементов для выбранных
   const { individuals: selectedIndividuals } = getFilteredAndSortedItems(selectedItems, filterSelected);
-
-  console.log('ssss ');
 
   // Функция для переключения видимости групп
   const toggleGroupVisibility = () => {
