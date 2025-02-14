@@ -1,8 +1,8 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './styles/scss/app.scss';
 import DualListBox from './ui/components/DualListBox/DualListBox';
 
-import { availableList, selectedList, group1 } from './mockData/data';
+import { availableList, selectedList, group1, group2 } from './mockData/data';
 import { ListItem } from './ui/components/DualListBox/DualListBox.types';
 
 function App() {
@@ -18,8 +18,16 @@ function App() {
   };
 
   const getGroupUsers = (id: string) => {
-    console.log(id);
-    return group1;
+    console.log('UUID группи:', id);
+    switch (id) {
+      case '550e8400-e29b-41d4-a716-446655440003':
+        return group1;
+
+      case '550e8400-e29b-41d4-a716-446655440004':
+        return group2;
+      default:
+        return [];
+    }
   };
 
   return (

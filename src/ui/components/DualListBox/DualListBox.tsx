@@ -89,11 +89,10 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
-  const hendleGroupUsers = (item: ListItem, e: React.MouseEvent) => {
+  //  функция для обработки выбора группы
+  const hendleGroupUsers = (item: ListItem) => {
     if (item.isGroup) {
       setActiveItems([item]);
-      console.log('groupUsers e:', e.target);
-      console.log('groupUsers id:', [item]);
     }
   };
 
@@ -211,7 +210,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                   className={`dual-list-box__list-item dual-list-box__list-item--group ${
                     activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
                   }`}
-                  onClick={(e) => hendleGroupUsers(item, e)}
+                  onClick={() => hendleGroupUsers(item)}
                 >
                   {item.label}
                 </div>
