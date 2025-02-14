@@ -11,7 +11,6 @@ export interface DualListBoxProps {
   placeholder: string;
   options: ListItem[];
   selectedValues: ListItem[];
-  maxInputHeight: number;
   isInvalid?: boolean;
   disabled?: boolean;
   invalidMessage?: string;

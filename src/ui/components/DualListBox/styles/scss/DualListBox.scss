@@ -22,13 +22,13 @@ $error-color: red;
   }
 
   &--invalid {
-    border: 2px solid $error-color;
+    border: 1px solid $error-color;
   }
 
   &__label {
     width: 100%;
     text-align: center;
-    
+
     p {
       margin: 5px;
     }
@@ -37,13 +37,11 @@ $error-color: red;
   &__error {
     color: $error-color;
     text-align: left;
-    
+
     p {
       margin: 5px;
     }
   }
-
-  
 
   &__content {
     display: flex;
@@ -164,17 +162,15 @@ $error-color: red;
   &__list-group {
     margin: 5px 0px;
     padding: 5px;
-    
+
     border-radius: $border-radius;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 
-
-
     &--active {
       background-color: $primary-color;
       color: white;
-      
+
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -192,10 +188,9 @@ $error-color: red;
     border-radius: $border-radius;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
-     user-select: none;
+    user-select: none;
     &:hover {
       border: 1px solid $border-color;
-      
     }
 
     &--active {
@@ -214,12 +209,10 @@ $error-color: red;
     &--group {
       font-weight: bold;
       margin-left: 15px;
-      
     }
     &--fixed {
-     pointer-events: none;
-     opacity: 0.5;
+      pointer-events: none;
+      opacity: 0.5;
     }
   }
-
 }

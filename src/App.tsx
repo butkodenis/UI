@@ -41,7 +41,6 @@ function App() {
           placeholder="Placeholder"
           options={availableList}
           selectedValues={selectedList}
-          maxInputHeight={200}
           isInvalid={true}
           disabled={false}
           invalidMessage={invalidMessage}
