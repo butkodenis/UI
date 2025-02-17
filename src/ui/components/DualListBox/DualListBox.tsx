@@ -53,7 +53,13 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   };
 
   // Функция для перемещения всех элементов в выбранные
-  const moveItemsToSelected = () => {};
+  const moveItemsToSelected = () => {
+    const newSelectedItems = [...selectedItems, ...activeItems];
+    // Очищаем список доступных элементов кроме групп
+    setAvailableItems(availableItems.filter((item) => item.isGroup));
+
+    setActiveItems([]);
+  };
 
   // Функция для перемещения всех элементов в доступные
   const moveItemsToAvailable = () => {};

@@ -17,19 +17,6 @@ function App() {
     }
   };
 
-  const getGroupUsers = (id: string) => {
-    console.log('UUID группи:', id);
-    switch (id) {
-      case '550e8400-e29b-41d4-a716-446655440003':
-        return group1;
-
-      case '550e8400-e29b-41d4-a716-446655440004':
-        return group2;
-      default:
-        return [];
-    }
-  };
-
   return (
     <div className="App">
       <div className="wrapper">
