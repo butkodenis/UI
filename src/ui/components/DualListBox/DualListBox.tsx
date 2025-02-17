@@ -52,6 +52,18 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
+  // Функция для перемещения всех элементов в выбранные
+  const moveItemsToSelected = () => {};
+
+  // Функция для перемещения всех элементов в доступные
+  const moveItemsToAvailable = () => {};
+
+  // Функция для перемещения элемента в выбранные
+  const moveItemToSelected = () => {};
+
+  // Функция для перемещения элемента в доступные
+  const moveItemToAvailable = () => {};
+
   return (
     <div className={`dual-list-box ${props.isInvalid ? 'dual-list-box--invalid' : ''} `}>
       <div className="dual-list-box__content">
