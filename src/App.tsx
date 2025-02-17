@@ -47,7 +47,6 @@ function App() {
           clearable={true}
           className="custom-class"
           onSelectedChange={handleSelectedChange}
-          onGroupUsers={getGroupUsers}
         />
       </div>
     </div>
