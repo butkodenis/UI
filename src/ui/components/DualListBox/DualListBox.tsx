@@ -181,7 +181,9 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                 className={
                   `dual-list-box__list-item` +
                   (item.isFixed ? ' dual-list-box__list-item--fixed' : '') +
-                  (activeItems.includes(item) ? 'dual-list-box__list-item--active' : '')
+                  (activeItems.some((activeItem) => activeItem.id === item.id)
+                    ? ' dual-list-box__list-item--active'
+                    : '')
                 }
                 onClick={(e) => handleSelect(item, e, 'selected')}
               >
