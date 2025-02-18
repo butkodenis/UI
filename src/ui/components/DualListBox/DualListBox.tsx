@@ -62,8 +62,8 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
   // Функция для перемещения всех элементов в выбранные
   const moveAllItemsToSelected = () => {
-    const individualItems = availableItems.filter((item) => !item.isGroup);
-    const newSelectedItems = [...selectedItems, ...individualItems.filter((item) => !selectedItems.includes(item))];
+    const individualItems = availableItems.filter((item) => !item.isGroup); // Фильтруем элементы, которые не являются группами
+    const newSelectedItems = [...selectedItems, ...individualItems.filter((item) => !selectedItems.includes(item))]; // Объединяем выбранные элементы с новыми элементами
 
     props.onChange(newSelectedItems);
 
@@ -72,15 +72,16 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
 
   // Функция для перемещения всех элементов в доступные
   const moveAllItemsToAvailable = () => {
-    const newSelectedItems = selectedItems.filter((item) => item.isFixed);
+    const newSelectedItems = selectedItems.filter((item) => item.isFixed); // Фильтруем элементы, которые являются фиксированными
 
     props.onChange(newSelectedItems);
 
     setActiveItems([]);
   };
 
-  // Функция для перемещения элемента в выбранные
+  // Функция для перемещения отмеченых элементов в выбранные
   const moveItemToSelected = () => {
+    // Объединяем выбранные элементы с новыми элементами
     const newSelectedItems = [...selectedItems, ...activeItems.filter((item) => !selectedItems.includes(item))];
 
     props.onChange(newSelectedItems);
@@ -88,8 +89,9 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     setActiveItems([]);
   };
 
-  // Функция для перемещения элемента в доступные
+  // Функция для перемещения отмеченых элементов в доступные
   const moveItemToAvailable = () => {
+    // Фильтруем элементы, которые не являются выбранными
     const newSelectedItems = selectedItems.filter((item) => !activeItems.includes(item));
 
     props.onChange(newSelectedItems);
