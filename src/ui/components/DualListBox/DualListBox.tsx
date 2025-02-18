@@ -14,6 +14,14 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   const [filterSelected, setFilterSelected] = useState('');
   const [isGroupVisible, setIsGroupVisible] = useState(true);
 
+  useEffect(() => {
+    setSelectedItems(props.selectedValues);
+  }, [props.selectedValues]);
+
+  useEffect(() => {
+    setAvailableItems(props.options);
+  }, [props.options]);
+
   const filteredAvailableItems = availableItems
     .filter((item) => item.label.toLowerCase().includes(filterAvailable.toLowerCase()))
     .filter((item) => isGroupVisible || !item.isGroup);
@@ -53,22 +61,41 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
   };
 
   // Функция для перемещения всех элементов в выбранные
-  const moveItemsToSelected = () => {
-    const newSelectedItems = [...selectedItems, ...activeItems];
-    // Очищаем список доступных элементов кроме групп
-    setAvailableItems(availableItems.filter((item) => item.isGroup));
+  const moveAllItemsToSelected = () => {
+    const individualItems = availableItems.filter((item) => !item.isGroup);
+    const newSelectedItems = [...selectedItems, ...individualItems.filter((item) => !selectedItems.includes(item))];
+
+    props.onChange(newSelectedItems);
 
     setActiveItems([]);
   };
 
   // Функция для перемещения всех элементов в доступные
-  const moveItemsToAvailable = () => {};
+  const moveAllItemsToAvailable = () => {
+    const newSelectedItems = selectedItems.filter((item) => item.isFixed);
+
+    props.onChange(newSelectedItems);
+
+    setActiveItems([]);
+  };
 
   // Функция для перемещения элемента в выбранные
-  const moveItemToSelected = () => {};
+  const moveItemToSelected = () => {
+    const newSelectedItems = [...selectedItems, ...activeItems.filter((item) => !selectedItems.includes(item))];
+
+    props.onChange(newSelectedItems);
+
+    setActiveItems([]);
+  };
 
   // Функция для перемещения элемента в доступные
-  const moveItemToAvailable = () => {};
+  const moveItemToAvailable = () => {
+    const newSelectedItems = selectedItems.filter((item) => !activeItems.includes(item));
+
+    props.onChange(newSelectedItems);
+
+    setActiveItems([]);
+  };
 
   return (
     <div className={`dual-list-box ${props.isInvalid ? 'dual-list-box--invalid' : ''} `}>
@@ -116,17 +143,18 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
         </div>
 
         <div className="dual-list-box__controls">
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" onClick={moveItemToSelected}>
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
-          <button className="dual-list-box__control">
-            <FontAwesomeIcon icon={faAngleLeft} />
-          </button>
-          <button className="dual-list-box__control">
+
+          <button className="dual-list-box__control" onClick={moveAllItemsToSelected}>
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
+          <button className="dual-list-box__control" onClick={moveItemToAvailable}>
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </button>
 
-          <button className="dual-list-box__control">
+          <button className="dual-list-box__control" onClick={moveAllItemsToAvailable}>
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
@@ -148,7 +176,15 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
           </div>
           <div className="dual-list-box__list">
             {filteredSelectedItems.map((item) => (
-              <div key={item.id} className="dual-list-box__list-item">
+              <div
+                key={item.id}
+                className={
+                  `dual-list-box__list-item` +
+                  (item.isFixed ? ' dual-list-box__list-item--fixed' : '') +
+                  (activeItems.includes(item) ? 'dual-list-box__list-item--active' : '')
+                }
+                onClick={(e) => handleSelect(item, e, 'selected')}
+              >
                 <span>{item.label}</span>
               </div>
             ))}

@@ -16,6 +16,5 @@ export interface DualListBoxProps {
   invalidMessage?: string;
   clearable?: boolean;
   className?: string;
-  onSelectedChange: (selectedItems: ListItem[]) => void;
-  onGroupUsers: (id: string) => ListItem[];
+  onChange: (selectedItems: ListItem[]) => void;
 }
