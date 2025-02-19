@@ -22,10 +22,12 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     setAvailableItems(props.options);
   }, [props.options]);
 
+  // Фильтруем доступные элементы
   const filteredAvailableItems = availableItems
     .filter((item) => item.label.toLowerCase().includes(filterAvailable.toLowerCase()))
     .filter((item) => isGroupVisible || !item.isGroup);
 
+  // Фильтруем выбранные элементы
   const filteredSelectedItems = selectedItems.filter((item) =>
     item.label.toLowerCase().includes(filterSelected.toLowerCase())
   );
@@ -60,10 +62,10 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
     }
   };
 
-  // Функция для перемещения всех элементов в выбранные
+  // Функция для перемещения всех элементов в выбранные кроме групп
   const moveAllItemsToSelected = () => {
-    const individualItems = availableItems.filter((item) => !item.isGroup); // Фильтруем элементы, которые не являются группами
-    const newSelectedItems = [...selectedItems, ...individualItems.filter((item) => !selectedItems.includes(item))]; // Объединяем выбранные элементы с новыми элементами
+    const individualItems = availableItems.filter((item) => !item.isGroup);
+    const newSelectedItems = [...selectedItems, ...individualItems.filter((item) => !selectedItems.includes(item))];
 
     props.onChange(newSelectedItems);
 
