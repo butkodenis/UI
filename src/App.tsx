@@ -28,7 +28,6 @@ function App() {
     const updatedSelectedItems = selectedItems.flatMap((item) => {
       if (item.isGroup) {
         const groupItems = getGroupItems(item.id);
-
         return groupItems;
       }
       return item;
@@ -39,7 +38,6 @@ function App() {
       (item, index, self) => index === self.findIndex((t) => t.id === item.id)
     );
 
-    console.log(updatedSelectedItemsUnique);
     // Проверяем наличие выбранных элементов в массиве доступных элементов и удаляем их
     const newSelectedItems = updatedSelectedItemsUnique.filter((item) => !selectedList.includes(item));
     const removedSelectedItems = selectedList.filter((item) => !updatedSelectedItemsUnique.includes(item));
@@ -77,7 +75,7 @@ function App() {
       <div className="wrapper">
         <h3>DualListBox</h3>
         <DualListBox
-          labelOptions="Додати ________"
+          labelOptions="Доступні ________"
           labelSelected="Вибрані ________"
           placeholder="Placeholder"
           options={availableList}
