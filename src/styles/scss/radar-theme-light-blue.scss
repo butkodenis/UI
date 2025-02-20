@@ -1,0 +1,356 @@
+.radar-theme-light-blue {
+  --main-color-primary-100: #51b4e4;
+  --main-color-primary-200: #6bbce7;
+  --main-color-primary-300: #81c4ea;
+  --main-color-primary-400: #95cded;
+  --main-color-primary-500: #a8d5f0;
+  --main-color-primary-600: #baddf3;
+
+  --color-surface-100: #fafafc;
+  --color-surface-200: #f0f0f0;
+  --color-surface-300: #e1e1e1;
+  --color-surface-400: #d2d2d2;
+  --color-surface-500: #c3c3c3;
+  --color-surface-600: #b4b4b4;
+  --color-surface-800: #808080;
+
+  --color-text-100: #000000;
+  --color-text-200: #0f0f0f;
+  --color-text-300: #1e1e1e;
+  --color-text-400: #2d2d2d;
+  --color-text-500: #3c3c3c;
+  --color-text-600: #4b4b4b;
+
+  /*--text-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  --text-font-family: 'Roboto', sans-serif;
+
+  /*------------------------------------------------------------------------------------------------------------------*/
+
+  --main-bacground-color: var(--color-surface-100);
+  --main-text-color: var(--color-text-100);
+
+  /*--------------- default-modifications  +  ---------------------------*/
+  --default-success-bacground-color: #d1e7dd;
+  --default-success-border-color: #a3cfbb;
+  --default-success-color: #178759;
+
+  --default-success-hover-bacground-color: #bdd3c9;
+  --default-success-hover-border-color: #92bba8;
+  --default-success-hover-color: #15734a;
+
+  --default-info-bacground-color: #cff4fc;
+  --default-info-border-color: #9eeaf9;
+  --default-info-color: #0aa6c3;
+
+  --default-info-hover-bacground-color: #bee0e8;
+  --default-info-hover-border-color: #8dd6e5;
+  --default-info-hover-color: #0997af;
+
+  --default-warning-bacground-color: #fff3cd;
+  --default-warning-border-color: #ffe69c;
+  --default-warning-color: #c39b05;
+
+  --default-warning-hover-bacground-color: #ebdfba;
+  --default-warning-hover-border-color: #ebd28b;
+  --default-warning-hover-color: #af8d04;
+
+  --default-danger-bacground-color: #f8d7da;
+  --default-danger-border-color: #f1aeb5;
+  --default-danger-color: #c31433;
+
+  --default-danger-hover-bacground-color: #e4c6c8;
+  --default-danger-hover-border-color: #dd9da4;
+  --default-danger-hover-color: #af122c;
+
+  --default-danger-active-bacground-color: #c31433;
+  --default-danger-active-border-color: #f1aeb5;
+  --default-danger-active-color: #f8d7da;
+
+  --default-danger-active-hover-bacground-color: #af122c;
+  --default-danger-active-hover-border-color: #dd9da4;
+  --default-danger-active-hover-color: #e4c6c8;
+
+  --default-disabled-bacground-color: #d2d2d2;
+  --default-disabled-text-color: #000000;
+  /*------------------------------------------------------------------------------------------------------------------*/
+
+  --main-color: #51b4e4;
+
+  /*------------------------------------------ navbar */
+  --navbar-background-color: var(--color-surface-400);
+  --navbar-menu-link-color: var(--color-text-500);
+  --navbar-menu-link-active-color: var(--color-text-200);
+
+  /*------------------------------------------ new-navbar */
+  --new-navbar-height: 64px;
+  --new-navbar-background-color: var(--color-surface-400);
+  --new-navbar-background-image-color: var(--main-color-primary-100);
+  --new-navbar-backdrop-background-color: rgba(128, 128, 128, 0.5);
+  --new-navbar-menu-link-color: var(--color-text-500);
+  --new-navbar-menu-link-active-color: var(--color-text-200);
+  --new-navbar-menu-badge-background-active-color: var(--color-surface-500);
+  --new-navbar-menu-badge-disabled-color: #5b5b5c;
+  --new-navbar-menu-badge-background-disabled-color: var(--new-navbar-background-color);
+
+  /*------------------------------------------ card */
+  --card-header-background-color: var(--color-surface-100);
+  --card-header-color: var(--color-text-200);
+
+  --card-body-background-color: var(--color-surface-200);
+  --card-body-color: var(--color-text-200);
+  --card-border-color: var(--color-surface-300);
+
+  /*------------------------------------------ pagination */
+  --pagination-navigate-link-bacground-color: var(--color-surface-200);
+  --pagination-navigate-link-text-color: var(--color-text-300);
+  --pagination-navigate-link-border-color: var(--color-surface-300);
+
+  --pagination-navigate-link-bacground-color-hover: var(--color-surface-300);
+  --pagination-navigate-link-text-color-hover: var(--color-text-100);
+
+  --pagination-navigate-link-bacground-color-active: var(--main-color-primary-100);
+  --pagination-navigate-link-text-color-active: var(--color-text-100);
+
+  --pagination-navigate-link-bacground-color-disabled: var(--color-surface-300);
+  --pagination-navigate-link-text-color-disabled: var(--color-text-500);
+  --pagination-navigate-link-border-color-disabled: var(--color-surface-400);
+  /*dropdown*/
+  --dropdown-trigger-bacground-color: var(--color-surface-200);
+  --dropdown-trigger-text-color: var(--color-text-300);
+  --dropdown-trigger-border-color: var(--color-surface-300);
+
+  --dropdown-content-bacground-color: var(--color-surface-300);
+
+  --dropdown-content-item-text-color: var(--color-text-400);
+
+  --dropdown-content-item-text-color-hover: var(--color-text-100);
+  --dropdown-content-item-border-color-hover: var(--color-text-100);
+
+  /*------------------------------------------ table */
+  --table-header-bacground-color: var(--color-surface-100);
+  --table-header-text-color: var(--color-text-400);
+  --table-header-border-color: var(--color-surface-300);
+
+  --table-td-bacground-color: var(--color-surface-200);
+  --table-td-text-color: var(--color-text-400);
+  --table-td-border-color: var(--color-surface-300);
+
+  --table-body-bacground-color: var(--color-surface-200);
+  --table-body-hover-bacground-color: var(--color-surface-300);
+  --table-body-colored-bacground-color: #e8e8e8;
+
+  --table-text-color: var(--color-text-400);
+  --table-hover-text-color: var(--color-text-100);
+
+  --table-button-text-color: var(--color-text-400);
+  --table-button-text-hover-color: var(--color-text-100);
+
+  /*------------------------------------------ input */
+  --input-background-color: var(--color-surface-300);
+  --input-text-color: var(--color-text-400);
+  --input-border-color: var(--color-surface-300);
+
+  --input-border-color-focus: var(--color-surface-600);
+
+  --input-feedback-color-valid: var(--default-success-border-color);
+  --input-feedback-color-invalid: var(--default-danger-border-color);
+
+  --input-bacground-color-disabled: var(--default-disabled-bacground-color);
+  --input-text-color-disabled: var(--default-disabled-text-color);
+
+  /*------------------------------------------ input select */
+  /*выпадающее меню*/
+  --input-select-menu-background-color: var(--color-surface-300);
+  --input-select-menu-border-color: var(--color-surface-300);
+  /*элемент выпадающего списка*/
+  --input-select-menu-item-text-color: var(--color-text-400);
+
+  --input-select-menu-item-background-color-hover: var(--color-surface-400);
+  --input-select-menu-item-text-color-hover: var(--color-text-100);
+
+  --input-select-menu-item-background-color-selected: var(--color-surface-400);
+  --input-select-menu-item-text-color-selected: var(--color-text-100);
+  /*выбранный елемент мульти селекта(кирпичик в инпуте)*/
+  --input-selected-item-in-input-background-color: var(--color-surface-200);
+  --input-selected-item-in-input-text-color: var(--color-text-400);
+  /*--input-selected-item-in-input-border-color: #393d41;*/
+
+  --input-selected-item-in-input-remove-background-color: var(--default-danger-active-bacground-color);
+  --input-selected-item-in-input-remove-text-color: var(--default-danger-active-color);
+
+  --input-selected-item-in-input-remove-background-color-hover: var(--default-danger-active-hover-bacground-color);
+  --input-selected-item-in-input-remove-text-color-hover: var(--default-danger-active-hover-color);
+
+  /*------------------------------------------ file-dropzone */
+  --file-dropzone-label-color: var(--color-text-300);
+
+  --file-dropzone-area-background-color: var(--color-surface-200);
+  --file-dropzone-area-border-color: var(--color-text-400);
+  --file-dropzone-area-text-color: var(--color-text-300);
+
+  --file-dropzone-area-background-color-hover: var(--color-surface-300);
+  --file-dropzone-area-border-color-hover: var(--main-color-primary-100);
+
+  --file-dropzone-area-disabled-background-color-hover: var(--default-disabled-bacground-color);
+  --file-dropzone-area-disabled-border-color-hover: var(--default-disabled-bacground-color);
+
+  /*------------------------------------------ checkbox/radio */
+  --ch-r-border-color: var(--main-color-primary-100);
+
+  --ch-r-label-color: var(--color-text-400);
+
+  --ch-r-hover-background-color: var(--main-color-primary-100);
+  --ch-r-hover-border-color: var(--main-color-primary-100);
+  --ch-r-hover-label-color: var(--color-text-100);
+
+  --ch-r-checked-background-color: var(--main-color-primary-100);
+
+  --ch-r-disable-background-color: var(--default-disabled-bacground-color);
+  --ch-r-disable-border-color: var(--default-disabled-bacground-color);
+  --ch-r-disable-text-color: var(--default-disabled-text-color);
+
+  /*------------------------------------------ data-tooltip */
+  --tooltip-text-color: #bfbfbf;
+
+  --tooltip-border-color-default: #393d41;
+  --tooltip-background-color-default: #171c20;
+
+  --tooltip-border-color-success: #6a9055;
+  --tooltip-background-color-success: #171c20;
+
+  --tooltip-border-color-danger: #dc3545;
+  --tooltip-background-color-danger: #20161a;
+
+  --tooltip-border-color-warning: #ff9a2e;
+  --tooltip-background-color-warning: #20161a;
+
+  /*------------------------------------------ loading-spinner */
+  --loading-spinner-color: #6a9055;
+
+  /*------------------------------------------ datepicker  */
+  --datepicker-background-color: var(--input-background-color);
+  --datepicker-text-color: var(--input-text-color);
+  --datepicker-border-color: var(--input-border-color);
+
+  --datepicker-input-background-color: var(--input-background-color);
+  --datepicker-input-text-color: var(--input-text-color);
+  --datepicker-input-border-color: var(--input-border-color);
+
+  --datepicker-input-background-color-focus: var(--input-background-color);
+  --datepicker-input-text-color-focus: var(--input-text-color);
+  --datepicker-input-border-color-focus: var(--color-surface-600);
+
+  --datepicker-header-background-color: var(--color-surface-100);
+  --datepicker-header-text-color: var(--color-text-200);
+  --datepicker-header-border-color: var(--color-surface-600);
+
+  --datepicker-current-month-text-color: var(--color-text-400);
+  --datepicker-day-name-text-color: var(--color-text-400);
+  --datepicker-day-text-color: var(--color-text-400);
+
+  --datepicker-day-background-color-hover: var(--color-text-400);
+  --datepicker-day-color-hover: var(--color-surface-100);
+
+  --datepicker-day-selected-background-color: var(--color-text-400);
+  --datepicker-day-selected-color: var(--color-surface-100);
+
+  --datepicker-day-today-background-color: #ffdb99;
+  --datepicker-day-today-color: var(--color-surface-100);
+
+  --datepicker-day-keyboard-selected-background-color: var(--color-text-400);
+  --datepicker-day-keyboard-selected-color: var(--color-surface-100);
+
+  --datepicker-day-outside-month: var(--color-surface-600);
+  --datepicker-day-disabled: var(--color-surface-600);
+
+  /*------------------------------------------ frame  */
+  --default-frame-border-color: var(--color-text-400);
+
+  --default-frame-background-color: rgba(80, 179, 226, 0.37);
+
+  --default-frame-label-background-color: var(--color-surface-300);
+  --default-frame-label-color: var(--color-text-400);
+
+  /*------------------------------------------ scroll  */
+  --scroll-background-color: var(--main-color-primary-100);
+
+  /*------------------------------------------ button-wide + */
+  --button-wide-background-color: #51b4e4;
+  --button-wide-color: var(--color-text-100);
+  --button-wide-background-color-hover: #3e88ad;
+  --button-wide-color-hover: var(--color-text-100);
+
+  --button-wide-background-color-disabled: #a1a1a1;
+  --button-wide-color-disabled: var(--color-text-100);
+
+  --button-wide-background-color-success: #28a745;
+  --button-wide-color-success: var(--color-text-100);
+  --button-wide-background-color-success-hover: #1f8136;
+  --button-wide-color-success-hover: var(--color-text-100);
+
+  --button-wide-background-color-info: #17a2b8;
+  --button-wide-color-info: var(--color-text-100);
+  --button-wide-background-color-info-hover: #137686;
+  --button-wide-color-info-hover: var(--color-text-100);
+
+  --button-wide-background-color-warning: #ed8a2e;
+  --button-wide-color-warning: var(--color-text-100);
+  --button-wide-background-color-warning-hover: #c46e2c;
+  --button-wide-color-warning-hover: var(--color-text-100);
+
+  --button-wide-background-color-danger: #dc3545;
+  --button-wide-color-danger: var(--color-text-100);
+  --button-wide-background-color-danger-hover: #992732;
+  --button-wide-color-danger-hover: var(--color-text-100);
+
+  /*------------------------------------------ link-like-button-wide + */
+  --link-like-button-wide-background-color: var(--button-wide-background-color);
+  --link-like-button-wide-color: var(--button-wide-color);
+  --link-like-button-wide-background-color-hover: var(--button-wide-background-color-hover);
+  --link-like-button-wide-color-hover: var(--button-wide-color-hover);
+
+  --link-like-button-wide-background-color-success: var(--button-wide-background-color-success);
+  --link-like-button-wide-color-success: var(--button-wide-color-success);
+  --link-like-button-wide-background-color-success-hover: var(--button-wide-background-color-success-hover);
+  --link-like-button-wide-color-success-hover: var(--button-wide-color-success-hover);
+
+  --link-like-button-wide-background-color-info: var(--button-wide-background-color-info);
+  --link-like-button-wide-color-info: var(--button-wide-color-info);
+  --link-like-button-wide-background-color-info-hover: var(--button-wide-background-color-info-hover);
+  --link-like-button-wide-color-info-hover: var(--button-wide-color-info-hover);
+
+  --link-like-button-wide-background-color-warning: var(--button-wide-background-color-warning);
+  --link-like-button-wide-color-warning: var(--button-wide-color-warning);
+  --link-like-button-wide-background-color-warning-hover: var(--button-wide-background-color-warning-hover);
+  --link-like-button-wide-color-warning-hover: var(--button-wide-color-warning-hover);
+
+  --link-like-button-wide-background-color-danger: var(--button-wide-background-color-danger);
+  --link-like-button-wide-color-danger: var(--button-wide-color-danger);
+  --link-like-button-wide-background-color-danger-hover: var(--button-wide-background-color-danger-hover);
+  --link-like-button-wide-color-danger-hover: var(--button-wide-color-danger-hover);
+
+  /*------------------------------------------ tree */
+  --radar-tree-label-text-color: var(--color-text-400);
+
+  --radar-tree-label-node-icon-color: var(--main-color-primary-100);
+  --radar-tree-label-node-icon-white-color: #ffffff;
+  --radar-tree-label-node-icon-yellow-color: #f9c648;
+  --radar-tree-label-node-icon-grey-color: #6f6f6f;
+
+  --radar-tree-label-background-color-hover: var(--color-surface-600);
+  --radar-tree-label-text-color-hover: var(--color-text-100);
+
+  --radar-tree-label-background-color-selected: var(--color-surface-600);
+  --radar-tree-label-text-color-selected: var(--color-text-100);
+
+  /*------------------------------------------ obj-viewer */
+  --obj-viewer-text-color: var(--color-text-400);
+  --obj-viewer-border-color: var(--color-surface-400);
+  --obj-viewer-main-background-color: var(--color-surface-100);
+  --obj-viewer-background-color: var(--color-surface-200);
+  --obj-viewer-background-color-focus: var(--color-surface-600);
+  --obj-viewer-canvas-background-color: var(--color-surface-100);
+  --obj-viewer-mesh-highlight-color: #8ec9f0;
+  --obj-viewer-mesh-row-highlight-color: #b7e2ff;
+  --obj-viewer-edges-color: #000000;
+}

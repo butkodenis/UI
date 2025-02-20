@@ -139,6 +139,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                   activeItems.includes(item) ? 'dual-list-box__list-item--active' : ''
                 }`}
                 onClick={(e) => handleSelect(item, e, 'available')}
+                onDoubleClick={moveItemToSelected}
               >
                 <span>{item.label}</span>
               </div>
@@ -147,18 +148,34 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
         </div>
 
         <div className="dual-list-box__controls">
-          <button className="dual-list-box__control" onClick={moveItemToSelected}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemToSelected}
+            disabled={availableItems.filter((item) => !item.isGroup).length === 0}
+          >
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
 
-          <button className="dual-list-box__control" onClick={moveAllItemsToSelected}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveAllItemsToSelected}
+            disabled={availableItems.filter((item) => !item.isGroup).length === 0}
+          >
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
-          <button className="dual-list-box__control" onClick={moveItemToAvailable}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveItemToAvailable}
+            disabled={selectedItems.filter((item) => !item.isFixed).length === 0}
+          >
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
 
-          <button className="dual-list-box__control" onClick={moveAllItemsToAvailable}>
+          <button
+            className="dual-list-box__control"
+            onClick={moveAllItemsToAvailable}
+            disabled={selectedItems.filter((item) => !item.isFixed).length === 0}
+          >
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
         </div>
@@ -190,6 +207,7 @@ const DualListBox: React.FC<DualListBoxProps> = (props) => {
                     : '')
                 }
                 onClick={(e) => handleSelect(item, e, 'selected')}
+                onDoubleClick={moveItemToAvailable}
               >
                 <span>{item.label}</span>
               </div>

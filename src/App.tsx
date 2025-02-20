@@ -24,10 +24,6 @@ function App() {
   }, [selectedList]);
 
   const handleSelectedChange = (selectedItems: ListItem[]) => {
-    console.log('selectedItems  (Обновленый массив выбраных от компонента): ', selectedItems);
-    console.log('selectedList (Текущий стейт род. выбраных): ', selectedList);
-    console.log('availableList (Текущий стейт род. доступных): ', availableList);
-
     // Заменяем группы на пользователей
     const updatedSelectedItems = selectedItems.flatMap((item) => {
       if (item.isGroup) {
