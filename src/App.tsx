@@ -28,20 +28,21 @@ function App() {
     const updatedSelectedItems = selectedItems.flatMap((item) => {
       if (item.isGroup) {
         const groupItems = getGroupItems(item.id);
-        // удаляем дубли если есть уже в списке выбранных
-        const newGroupItems = groupItems.filter(
-          (groupItem) => !selectedItems.some((selectedItem) => selectedItem.id === groupItem.id)
-        );
 
-        return newGroupItems;
+        return groupItems;
       }
       return item;
     });
-    //
 
+    // Удаляем дубликаты
+    const updatedSelectedItemsUnique = updatedSelectedItems.filter(
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+    );
+
+    console.log(updatedSelectedItemsUnique);
     // Проверяем наличие выбранных элементов в массиве доступных элементов и удаляем их
-    const newSelectedItems = updatedSelectedItems.filter((item) => !selectedList.includes(item));
-    const removedSelectedItems = selectedList.filter((item) => !updatedSelectedItems.includes(item));
+    const newSelectedItems = updatedSelectedItemsUnique.filter((item) => !selectedList.includes(item));
+    const removedSelectedItems = selectedList.filter((item) => !updatedSelectedItemsUnique.includes(item));
 
     // Обновляем массив доступных элементов
     const updatedAvailableList = [
@@ -51,12 +52,12 @@ function App() {
 
     // Удаляем пользователей, добавленных через группу, из availableList
     const finalAvailableList = updatedAvailableList.filter(
-      (item) => !updatedSelectedItems.some((selectedItem) => selectedItem.id === item.id)
+      (item) => !updatedSelectedItemsUnique.some((selectedItem) => selectedItem.id === item.id)
     );
 
     // Обновляем состояния списков
     setAvailableList(finalAvailableList);
-    setSelectedList(updatedSelectedItems);
+    setSelectedList(updatedSelectedItemsUnique);
   };
 
   const getGroupItems = (id: string) => {
